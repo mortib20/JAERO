@@ -1608,7 +1608,7 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                                 emit DataCarrierDetect(datacd);
                             }
 
-                            decline+=(k+'0');//SU number in frame
+                            decline += QChar(k + '0');//SU number in frame
                             for(int j=0;j<12-2;j++)
                             {
                                 decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)infofield[k*12+j]));
@@ -1968,7 +1968,7 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
 
                             //if(!decline.isEmpty())qDebug()<<decline;
 
-                            decodedbytes+=decline;
+                            decodedbytes += decline.toUtf8();
                             decline.clear();
 
                         }
