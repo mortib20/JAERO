@@ -4,6 +4,7 @@
 #include <libacars/acars.h>
 #include <libacars/vstring.h>
 #include <QRegularExpression>
+#include <QRegularExpressionMatch>
 
 ArincParse::ArincParse(QObject *parent) : QObject(parent)
 {
@@ -143,10 +144,12 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
     downlinkheader.flightid=acarsitem.message.mid(4,6);//unsually flight # but not allways
     //remove zero padding in flight id
     QRegularExpression rx("^[A-Z]*(0*)");
-    int pos = rx.indexIn(downlinkheader.flightid);
-    if(pos!=-1)downlinkheader.flightid.remove(rx.pos(1),rx.cap(1).size());
-    if((downlinkheader.flightid.size()<3)||!downlinkheader.flightid[0].isLetter())downlinkheader.flightid.clear();//lets say not a flight #
-    downlinkheader.valid=true;
+    QRegularExpressionMatch match = rx.match(downlinkheader.flightid);
+    if (match.hasMatch()) {
+        int pos = match.capturedStart(1); // Get the start position of the first capture group
+        int length = match.captured(1).length(); // Get the length of the first capture group
+        downlinkheader.flightid.remove(pos, length); // Remove the matched substring
+    }
 
     //deal with application section
     QStringList sections=acarsitem.message.split('/');
