@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QUdpSocket>
 #include <QLabel>
-#include <QSound> 
+#include <QSoundEffect> 
 
 #include "audiooqpskdemodulator.h"
 #include "audiomskdemodulator.h"
