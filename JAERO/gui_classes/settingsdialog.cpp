@@ -11,7 +11,6 @@
 #include <QDir>
 #include <QJsonObject>
 #include <QMediaDevices>
-#include <QRegExp>
 #include "../databasetext.h"
 
 QString settings_name="";
@@ -43,7 +42,7 @@ void SettingsDialog::populatepublicvars()
     msgdisplayformat=ui->comboBoxoutputfmt->currentText();
     dropnontextmsgs=ui->checkBoxdropnontextmsgs->isChecked();
     donotdisplaysus.clear();
-    QRegExp rx("([\\da-fA-F]+)");
+    QRegularExpression rx("([\\da-fA-F]+)");
     int pos = 0;
     while ((pos = rx.indexIn(ui->lineEditdonotdisplaysus->text(), pos)) != -1)
     {
@@ -249,7 +248,7 @@ void SettingsDialog::populatesettings()
     ui->checkBoxZMQ->setChecked(settings.value("zmqAudioInputEnabled", false).toBool());
     ui->lineEditZmqConnectAddress->setText(settings.value("zmqAudioInputReceiveAddress", "tcp://127.0.0.1:6003").toString());
     QString default_topic = settings_name;
-    default_topic.remove(QRegExp( "JAERO \\[" )).remove(QRegExp( "\\]" ));
+    default_topic.remove(QRegularExpression( "JAERO \\[" )).remove(QRegularExpression( "\\]" ));
     default_topic=default_topic.trimmed();
     ui->lineEditZmqTopic->setText(settings.value("zmqAudioInputReceiveTopic", default_topic).toString());
 

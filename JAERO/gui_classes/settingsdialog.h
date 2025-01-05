@@ -14,6 +14,7 @@
 #include <QVector>
 #include <QAudioDevice>
 #include <QJsonArray>
+#include <QRegularExpression>
 #include "mqttsubscriber.h"
 
 extern QString settings_name;
