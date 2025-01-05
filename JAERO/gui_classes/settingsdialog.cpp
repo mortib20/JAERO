@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QJsonObject>
 #include <QMediaDevices>
+#include <QRegExp>
 #include "../databasetext.h"
 
 QString settings_name="";

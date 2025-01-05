@@ -1258,12 +1258,13 @@ void MainWindow::acceptsettings()
         zmq_audio_sender->Stop();
         disconnect(aerol,SIGNAL(Voicesignal(QByteArray&, QString&)),zmq_audio_sender,SLOT(Voiceslot(QByteArray&, QString&)));
     }
-   if(settingsdialog->beepontextmessage)
+   if (settingsdialog->beepontextmessage)
    {
-        if(!beep)
+        if(!beep) {
             beep=new QSoundEffect(this);
             beep->setSource(*new QUrl(":/sounds/beep.wav"));
-   }else{
+        }
+   } else {
         if(beep)
         {
             beep->deleteLater();
