@@ -2,7 +2,6 @@
 #define MQTTSUBSCRIBER_H
 
 #include <QObject>
-#include <QMqtt>
 #include <QMqttClient>
 #include "acarsitem_converter.h"
 
