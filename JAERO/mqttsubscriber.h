@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMqttClient>
+#include <QMqttMessage>
 #include "acarsitem_converter.h"
 
 //#define QMQTT_DEBUG_SUBSCRIBER
@@ -81,7 +82,7 @@ private:
 private slots:
     void onConnected();
     void onSubscribed(const QString& topic);
-    void onReceived(const QMqtt::Message& message);
+    void onReceived(const QMqttMessage& message);
     void onSslErrors(const QList<QSslError>& errors);
     void onDisconnected();
     void onClientDestroyed(QObject * = nullptr);
