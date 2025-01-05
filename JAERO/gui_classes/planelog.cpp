@@ -700,6 +700,7 @@ void PlaneLog::on_toolButtonimg_clicked()
     QStringList list=str.split('\n');
     if(list.size()>3)
     {
+        QRegularExpression rx("Reg. ID([\\s]*)(.+)");
         QRegularExpressionMatch match = rx.match(list[0]);
         if (match.hasMatch())
             regstr = match.captured(2).toLower();
