@@ -101,6 +101,7 @@ MainWindow::MainWindow(QWidget *parent) :
     last_frequency=0;
     last_EbNo=0;
 
+    QUrl url(":/sounds/beep.wav");
     beep=nullptr;
 
     //plane logging window
@@ -1261,7 +1262,7 @@ void MainWindow::acceptsettings()
    {
         if(!beep)
             beep=new QSoundEffect(this);
-            beep->setSource(new QUrl(":/sounds/beep.wav"))
+            beep->setSource(*new QUrl(":/sounds/beep.wav"))
    }else{
         if(beep)
         {
