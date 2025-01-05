@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QAudioInput>
+#include <QMediaDevices>
 
 #include "mskdemodulator.h"
 

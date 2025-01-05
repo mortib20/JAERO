@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QDir>
 #include <QJsonObject>
+#include <QMediaDevices>
 #include "../databasetext.h"
 
 QString settings_name="";
