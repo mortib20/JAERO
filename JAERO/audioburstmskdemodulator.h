@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QAudioInput>
 #include <QMediaDevices>
+#include <QAudioInput>
+#include <QAudioFormat>
+#include <QAudioSink>
 
 #include "burstmskdemodulator.h"
 
@@ -29,7 +32,7 @@ public:
 private:
     Settings settings;
     QAudioFormat m_format;
-    QAudioInput *m_audioInput;
+    QAudioSink *m_audioInput;
 };
 
 #endif // AUDIOBURSTMSKDEMODULATOR_H
