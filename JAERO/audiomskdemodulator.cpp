@@ -1,6 +1,7 @@
 #include "audiomskdemodulator.h"
 
 #include <QDebug>
+#include <QMediaDevices>
 
 AudioMskDemodulator::AudioMskDemodulator(QObject *parent)
     :   MskDemodulator(parent),

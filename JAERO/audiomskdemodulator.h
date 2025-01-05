@@ -2,8 +2,10 @@
 #define AUDIOMSKDEMODULATOR_H
 
 #include <QObject>
-#include <QAudioInput>
+#include <QAudioDevice>
 #include <QMediaDevices>
+#include <QAudioInput>
+#include <QAudioFormat>
 
 #include "mskdemodulator.h"
 
