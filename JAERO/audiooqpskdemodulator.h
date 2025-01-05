@@ -2,7 +2,7 @@
 #define AUDIOOQPSKDEMODULATOR_H
 
 #include <QObject>
-#include <QAudioInput>
+#include <QAudioSource>
 #include <QMediaDevices>
 
 #include "oqpskdemodulator.h"
@@ -29,7 +29,7 @@ public:
 private:
     Settings settings;
     QAudioFormat m_format;
-    QAudioInput *m_audioInput;
+    QAudioSource *m_audioInput;
 };
 
 #endif // AUDIOOQPSKDEMODULATOR_H
