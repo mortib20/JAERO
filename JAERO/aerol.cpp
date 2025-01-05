@@ -419,7 +419,7 @@ bool ParserISU::parse(ISUItem &isuitem)
             byte&=0x7F;
             if(!parities[k])
             {
-               anerror=((QString)"").aasprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
+               anerror=((QString)"").asprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
                emit Errorsignal(anerror);
                return false;
             }
@@ -1482,8 +1482,9 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                     QString decline;
                     quint32 AESID=byte1<<8*2|byte2<<8*1|byte3<<8*0;
                     int GES=byte4;
-                    decline+=((QString)" T Packet from AES: %3 to GES: %4 with %5 SUs\n").arg((((QString)"%1").arg(AESID,6, 16, QChar('0'))).toUpper()).arg((((QString)"%1").arg(GES,2, 16, QChar('0'))).toUpper()).arg(rtchanneldeleavefecscram.numberofsus);
-                    decodedbytes+=decline;decline.clear();
+                    decline += ((QString)" T Packet from AES: %3 to GES: %4 with %5 SUs\n").arg((((QString)"%1").arg(AESID,6, 16, QChar('0'))).toUpper()).arg((((QString)"%1").arg(GES,2, 16, QChar('0'))).toUpper()).arg(rtchanneldeleavefecscram.numberofsus);
+                    decodedbytes += decline.toUtf8();
+                    decline.clear();
 
                     for(int k=0;k<rtchanneldeleavefecscram.numberofsus;k++)
                     {
