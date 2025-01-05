@@ -210,7 +210,7 @@ bool ISUData::update(QByteArray data)
         }
         else for(int i=2;i<=9;i++)pisuitem->userdata+=data[i];
 
-        //qDebug()<<((QString)"").sprintf("ssu data: SEQNO %d, QNO %d, REFNO %d",pisuitem->SEQNO,pisuitem->QNO,pisuitem->REFNO);
+        //qDebug()<<((QString)"").asprintf("ssu data: SEQNO %d, QNO %d, REFNO %d",pisuitem->SEQNO,pisuitem->QNO,pisuitem->REFNO);
     }
         break;
     }
@@ -419,7 +419,7 @@ bool ParserISU::parse(ISUItem &isuitem)
             byte&=0x7F;
             if(!parities[k])
             {
-               anerror=((QString)"").sprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
+               anerror=((QString)"").aasprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
                emit Errorsignal(anerror);
                return false;
             }
@@ -438,7 +438,7 @@ bool ParserISU::parse(ISUItem &isuitem)
                 byte&=0x7F;
                 if(!parities[k])
                 {
-                    anerror=((QString)"").sprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
+                    anerror=((QString)"").asprintf("ISU: AESID = %X GESID = %X QNO = %02X REFNO = %02X : Parity error",isuitem.AESID,isuitem.GESID,isuitem.QNO,isuitem.REFNO);
                     emit Errorsignal(anerror);
 
                    return false;
@@ -462,7 +462,7 @@ bool ParserISU::parse(ISUItem &isuitem)
         {
             ACARSItem *pai=new ACARSItem;
             *pai=anacarsitem;
-            QString AESIDstr=((QString)"").sprintf("%06X",anacarsitem.isuitem.AESID);
+            QString AESIDstr=((QString)"").asprintf("%06X",anacarsitem.isuitem.AESID);
             dbtu->request(databasedir,AESIDstr,pai);
         }
 
@@ -480,7 +480,7 @@ bool ParserISU::parse(ISUItem &isuitem)
 
     ACARSItem *pai=new ACARSItem;
     *pai=anacarsitem;
-    QString AESIDstr=((QString)"").sprintf("%06X",anacarsitem.isuitem.AESID);
+    QString AESIDstr=((QString)"").asprintf("%06X",anacarsitem.isuitem.AESID);
     dbtu->request(databasedir,AESIDstr,pai);
 
     return true;
@@ -1349,7 +1349,7 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                     QString decline;
                     for(int j=0;j<19-2;j++)
                     {
-                        decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)rtchanneldeleavefecscram.infofield[j]));
+                        decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)rtchanneldeleavefecscram.infofield[j]));
                     }
                     decline+=" ";
 
@@ -1489,7 +1489,7 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                     {
                         for(int j=0;j<12-2;j++)
                         {
-                            decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)rtchanneldeleavefecscram.infofield[6+k*12+j]));
+                            decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)rtchanneldeleavefecscram.infofield[6+k*12+j]));
                         }
 
                         MessageType message=(MessageType)((uchar)rtchanneldeleavefecscram.infofield[6+k*12]);
@@ -1610,9 +1610,9 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                             decline+=(k+'0');//SU number in frame
                             for(int j=0;j<12-2;j++)
                             {
-                                decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)infofield[k*12+j]));
+                                decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)infofield[k*12+j]));
                             }
-                            //                        decline+=((QString)"").sprintf(" rec = %04X calc = %04X", crc_rec,crc_calc);
+                            //                        decline+=((QString)"").asprintf(" rec = %04X calc = %04X", crc_rec,crc_calc);
                             if(crc_calc==crc_rec)
                             {
 
@@ -1957,11 +1957,11 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                                 //allgood=false;
                              }
 
-                            /*if(crc_calc==crc_rec)qDebug()<<k<<((QString)"").sprintf("rec = %02X", crc_rec)<<((QString)"").sprintf("calc = %02X", crc_calc)<<"OK"<<unencoded_BER_estimate*100.0;
+                            /*if(crc_calc==crc_rec)qDebug()<<k<<((QString)"").asprintf("rec = %02X", crc_rec)<<((QString)"").asprintf("calc = %02X", crc_calc)<<"OK"<<unencoded_BER_estimate*100.0;
                          else
                          {
                             allgood=false;
-                            qDebug()<<k<<((QString)"").sprintf("rec = %02X", crc_rec)<<((QString)"").sprintf("calc = %02X", crc_calc)<<"Bad CRC"<<unencoded_BER_estimate*100.0;
+                            qDebug()<<k<<((QString)"").asprintf("rec = %02X", crc_rec)<<((QString)"").asprintf("calc = %02X", crc_calc)<<"Bad CRC"<<unencoded_BER_estimate*100.0;
                          }
                          */
 
@@ -2403,7 +2403,7 @@ QByteArray &AeroL::DecodeC(QVector<short> &bits)
                             case Call_progress:
                             {
 
-                                for(int k=0;k<infofield.size()-2;k++)decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)infofield[k]));
+                                for(int k=0;k<infofield.size()-2;k++)decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)infofield[k]));
                                 decline+=" AES = "+infofield.mid(1,3).toHex().toUpper();
                                 decline+=" GES = "+infofield.mid(4,1).toHex().toUpper();
                                 decline+=" Call_progress \r\n";
@@ -2422,7 +2422,7 @@ QByteArray &AeroL::DecodeC(QVector<short> &bits)
                             case Telephony_acknowledge:
                             {
 
-                                for(int k=0;k<infofield.size()-2;k++)decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)infofield[k]));
+                                for(int k=0;k<infofield.size()-2;k++)decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)infofield[k]));
                                 decline+=" AES = "+infofield.mid(1,3).toHex().toUpper();
                                 decline+=" GES = "+infofield.mid(4,1).toHex().toUpper();
                                 decline+=" Telephony_acknowledge \r\n";
@@ -2434,7 +2434,7 @@ QByteArray &AeroL::DecodeC(QVector<short> &bits)
                             {
                                 for(int k=0;k<infofield.size()-2;k++)
                                 {
-                                    decline+=((QString)" 0x%1").arg(((QString)"").sprintf("%02X", (uchar)infofield[k]));
+                                    decline+=((QString)" 0x%1").arg(((QString)"").asprintf("%02X", (uchar)infofield[k]));
                                 }
 
                                 decline+= " Other C Channel signal unit \r\n";
