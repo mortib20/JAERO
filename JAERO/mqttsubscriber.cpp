@@ -6,13 +6,13 @@ void MqttSubscriber::updateState(bool subscriptionState)
 {
     //what we emitted last time
     QMQTT::ConnectionState org_state=m_lastClientConnectionState;
-    if((m_lastClientConnectionState==QMQTT::STATE_CONNECTED)&&(m_lastSubscriptionState))
+    if((m_lastClientConnectionState==QMqttClient::ClientState::Connected)&&(m_lastSubscriptionState))
     {
-        org_state=(QMQTT::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        org_state=(QMqttClient::ClientState::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //update state
-    QMQTT::ConnectionState state=QMQTT::STATE_DISCONNECTED;
+    QMQTT::ConnectionState state=QMqttClient::Disconnected;
     if(client)state=client->connectionState();
     m_lastSubscriptionState=subscriptionState;
     m_lastClientConnectionState=state;
