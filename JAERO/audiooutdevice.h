@@ -11,7 +11,7 @@ class AudioOutDevice : public QIODevice
 public:
     struct Settings
     {
-        QAudioDeviceInfo audio_device_out;
+        QAudioDevice audio_device_out;
         double buffersizeinsecs;
         double Fs;
         Settings()

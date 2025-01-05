@@ -12,11 +12,11 @@ class AudioBurstMskDemodulator : public BurstMskDemodulator
 public:
     struct Settings : public BurstMskDemodulator::Settings
     {
-        QAudioDeviceInfo audio_device_in;
+        QAudioDevice audio_device_in;
         double buffersizeinsecs;
         Settings()
         {
-            audio_device_in=QAudioDeviceInfo::defaultInputDevice();
+            audio_device_in=QMediaDevices::defaultAudioInput();
             buffersizeinsecs=1.0;
         }
     };

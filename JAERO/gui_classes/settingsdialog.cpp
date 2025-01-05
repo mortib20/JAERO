@@ -51,8 +51,8 @@ void SettingsDialog::populatepublicvars()
         pos += rx.matchedLength();
     }
 
-    audioinputdevice=QAudioDeviceInfo::defaultInputDevice();
-    foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
+    audioinputdevice=QMediaDevices::defaultAudioInput();
+    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
     {
         if(deviceInfo.deviceName()==ui->comboBoxsoundcard->currentText())
         {
@@ -149,7 +149,7 @@ void SettingsDialog::populatesettings()
 
     //populate soundcard
     ui->comboBoxsoundcard->clear();
-    foreach (const QAudioDeviceInfo &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
+    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
         ui->comboBoxsoundcard->addItem(deviceInfo.deviceName());
 
     //load settings

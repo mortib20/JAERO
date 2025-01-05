@@ -31,7 +31,7 @@ public:
     ~SettingsDialog();
     void populatesettings();
 
-    QAudioDeviceInfo audioinputdevice;
+    QAudioDevice audioinputdevice;
     QVector<int> donotdisplaysus;
     bool dropnontextmsgs;
     QString msgdisplayformat;
