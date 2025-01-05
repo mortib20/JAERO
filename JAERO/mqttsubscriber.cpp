@@ -65,7 +65,7 @@ void MqttSubscriber::onSslErrors(const QList<QSslError>& errors)
     qDebug()<<errors;
 #endif
     if(!client)return;
-    client->ignoreSslErrors();
+    // client->ignoreSslErrors();
 }
 
 void MqttSubscriber::connectToHost(const MqttSubscriber_Settings_Object &settings)
@@ -106,11 +106,11 @@ void MqttSubscriber::connectToHost()
     //create a new client with us as the parent
     if(settings.encryption)
     {
-        client=new QMQTT::Client(settings.host,settings.port,QSslConfiguration::defaultConfiguration(),false,this);
+        client=new QMqttClient(settings.host,settings.port,QSslConfiguration::defaultConfiguration(),false,this);
     }
     else
     {
-        client=new QMQTT::Client(QHostAddress(settings.host),settings.port,this);
+        client=new QMqttClient(QHostAddress(settings.host),settings.port,this);
     }
 
     //add it to the list
