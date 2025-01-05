@@ -15,7 +15,7 @@ void AudioMskDemodulator::start()
     MskDemodulator::start();
     if(!settings.zmqAudio)
     {
-        if(m_audioInput)m_audioInput->start(this);
+        if(m_audioInput)m_audioInput->start();
     }
 }
 
@@ -42,12 +42,12 @@ void AudioMskDemodulator::setSettings(Settings _settings)
         m_format.setChannelCount(1);
         m_format.setSampleSize(16);
         m_format.setCodec("audio/pcm");
-        m_format.setByteOrder(QAudioFormat::LittleEndian);
+        M_format.setByteOrder(QAudioFormat::LittleEndian);
         m_format.setSampleType(QAudioFormat::SignedInt);
 
         //setup
         m_audioInput = new QAudioInput(settings.audio_device_in, m_format, this);
-        m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
+        // m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
     }
     settings=_settings;
     MskDemodulator::setSettings(settings);
