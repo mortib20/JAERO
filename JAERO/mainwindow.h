@@ -100,7 +100,7 @@ private:
 
     ArincParse arincparser;
 
-    QSound *beep;
+    QSoundEffect *beep;
 
     //ZeroMQ Audio Receiver
     ZMQAudioReceiver *zmq_audio_receiver;

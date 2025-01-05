@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QMediaDevices>
 #include <QAudioDevice>
+#include <QAudioOutput>
 #include <QVector>
 
 class AudioOutDevice : public QIODevice
