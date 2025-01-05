@@ -18,6 +18,7 @@
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QMenuBar>
+#include <QRegularExpression>
 #include "settingsdialog.h"
 
 int PlaneLog::findAESrow(const QString &aes)
@@ -187,7 +188,6 @@ PlaneLog::PlaneLog(QWidget *parent) :
     toolBar->addAction(ui->actionStopSorting);
     mainWindow->addToolBar(toolBar);
     QHBoxLayout * layout = new QHBoxLayout();
-    layout->setMargin(0);
     layout->setContentsMargins(0,0,0,0);
     layout->addWidget(mainWindow);
     setLayout(layout);
@@ -367,7 +367,7 @@ void PlaneLog::ACARSslot(ACARSItem &acarsitem)
     ui->tableWidget->setSortingEnabled(false);//!!!!!
 
     int rows = ui->tableWidget->rowCount();
-    QString AESIDstr=((QString)"").sprintf("%06X",acarsitem.isuitem.AESID);
+    QString AESIDstr=((QString)"").asprintf("%06X",acarsitem.isuitem.AESID);
     bool found = false;
     int idx=-1;
     for(int i = 0; i < rows; ++i)
@@ -480,14 +480,14 @@ void PlaneLog::ACARSslot(ACARSItem &acarsitem)
         uchar label1=acarsitem.LABEL[1];
         if((uchar)acarsitem.LABEL[1]==127)label1='d';        
 
-        if(acarsitem.nonacars)tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").sprintf("AES:%06X GES:%02X   %s       ●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.PLANEREG.data()));
+        if(acarsitem.nonacars)tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").asprintf("AES:%06X GES:%02X   %s       ●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.PLANEREG.data()));
          else
          {
             if((acarsitem.downlink)&&!arincparser.downlinkheader.flightid.isEmpty())
             {
-                tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").sprintf("AES:%06X GES:%02X %c %s %s %c%c %c Flight %s●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.MODE,acarsitem.PLANEREG.data(),TAKstr.data(),(uchar)acarsitem.LABEL[0],label1,acarsitem.BI,arincparser.downlinkheader.flightid.toLatin1().data()));
+                tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").asprintf("AES:%06X GES:%02X %c %s %s %c%c %c Flight %s●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.MODE,acarsitem.PLANEREG.data(),TAKstr.data(),(uchar)acarsitem.LABEL[0],label1,acarsitem.BI,arincparser.downlinkheader.flightid.toLatin1().data()));
             }
-             else tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").sprintf("AES:%06X GES:%02X %c %s %s %c%c %c●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.MODE,acarsitem.PLANEREG.data(),TAKstr.data(),(uchar)acarsitem.LABEL[0],label1,acarsitem.BI));
+             else tmp+="✈: "+QDateTime::currentDateTime().toUTC().toString("hh:mm:ss dd-MM-yy ")+(((QString)"").asprintf("AES:%06X GES:%02X %c %s %s %c%c %c●●",acarsitem.isuitem.AESID,acarsitem.isuitem.GESID,acarsitem.MODE,acarsitem.PLANEREG.data(),TAKstr.data(),(uchar)acarsitem.LABEL[0],label1,acarsitem.BI));
          }
 
         if((!acarsitem.nonacars)&&arincparser.arincmessage.info.size()>2)
@@ -505,7 +505,7 @@ void PlaneLog::ACARSslot(ACARSItem &acarsitem)
     ui->tableWidget->setSortingEnabled(true);//allow sorting again
 
     //send a request off to the DB for an update. responce will be async
-    if(!planesfolder.isNull())dbc->request(planesfolder,((QString)"").asprintf("%06X",acarsitem.isuitem.AESID),&dBaseRequestSourceACARSMessage);
+    if(!planesfolder.isNull())dbc->request(planesfolder,((QString)"").aasprintf("%06X",acarsitem.isuitem.AESID),&dBaseRequestSourceACARSMessage);
 }
 
 void PlaneLog::on_actionClear_triggered()
@@ -700,7 +700,7 @@ void PlaneLog::on_toolButtonimg_clicked()
     QStringList list=str.split('\n');
     if(list.size()>3)
     {
-        QRegExp rx("Reg. ID([\\s]*)(.+)");
+        QRegularExpression rx("Reg. ID([\\s]*)(.+)");
         if(rx.indexIn(list[0])!=-1)
         {
             regstr=rx.cap(2).toLower();
@@ -711,7 +711,7 @@ void PlaneLog::on_toolButtonimg_clicked()
     QStringList list=str.split('\n');
     if(list.size()>3)
     {
-        QRegExp rx("Reg. ID([\\s]*)(.+)");
+        QRegularExpression rx("Reg. ID([\\s]*)(.+)");
         if(rx.indexIn(list[0])!=-1)
         {
             QString url="http://www.flightradar24.com/data/airplanes/"+rx.cap(2).toLower();
@@ -724,7 +724,7 @@ void PlaneLog::on_toolButtonimg_clicked()
     {
         regstr=REGitem->text().toLower().trimmed();
         regstr.replace(".","");
-        QRegExp rx("([a-z_0-9]*)");
+        QRegularExpression rx("([a-z_0-9]*)");
         if((regstr.size()==7)&&(rx.indexIn(regstr)!=-1))
         {
             if(rx.cap(1).size()==7)
@@ -804,7 +804,7 @@ void PlaneLog::on_actionExport_log_triggered()
         return;
     }
     QTextStream outtext(&outfile);
-    outtext.setCodec("UTF-8");
+    // outtext.setCodec("UTF-8");
 
     //write file
     for(int row=0;row<ui->tableWidget->rowCount();row++)
@@ -856,7 +856,7 @@ void PlaneLog::on_actionImport_log_triggered()
         return;
     }
     QTextStream intext(&infile);
-    intext.setCodec("UTF-8");
+    // intext.setCodec("UTF-8");
 
     //confirm
     if(ui->tableWidget->rowCount())
