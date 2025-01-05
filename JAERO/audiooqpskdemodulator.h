@@ -32,7 +32,7 @@ public:
 private:
     Settings settings;
     QAudioFormat m_format;
-    QAudioSource *m_audioInput;
+    QAudioSink *m_audioInput;
 };
 
 #endif // AUDIOOQPSKDEMODULATOR_H
