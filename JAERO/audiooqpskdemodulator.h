@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QAudioSource>
 #include <QMediaDevices>
+#include <QAudioInput>
+#include <QAudioFormat>
+#include <QAudioSink>
 
 #include "oqpskdemodulator.h"
 
