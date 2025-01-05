@@ -2,6 +2,7 @@
 #define MQTTSUBSCRIBER_H
 
 #include <QObject>
+#include <QMqtt>
 #include <QMqttClient>
 #include "acarsitem_converter.h"
 
@@ -64,9 +65,9 @@ signals:
 private:
     ACARSItem_QObject aco;
     MqttSubscriber_Settings_Object settings;
-    QMqtt::QMqttClient *client;
+    QMqttClient *client;
     void delay(int delay_ms);
-    QList<QMqtt::QMqttClient *> client_list;
+    QList<QMqttClient *> client_list;
     int messageId;
 
     //if you subscribe to something you don't
@@ -86,7 +87,7 @@ private slots:
     void onDisconnected();
     void onClientDestroyed(QObject * = nullptr);
     void onSubscribeTimeout();
-    void onError(const QMqtt::QMqttClient::ClientError error);
+    void onError(const QMqttClient::ClientError error);
     void onUnsubscribed(const QString& topic);
 };
 
