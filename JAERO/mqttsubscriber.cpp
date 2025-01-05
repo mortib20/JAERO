@@ -5,22 +5,22 @@
 void MqttSubscriber::updateState(bool subscriptionState)
 {
     //what we emitted last time
-    QMQTT::ConnectionState org_state=m_lastClientConnectionState;
+    QMqttClient::ClientState org_state=m_lastClientConnectionState;
     if((m_lastClientConnectionState==QMqttClient::ClientState::Connected)&&(m_lastSubscriptionState))
     {
-        org_state=(QMqttClient::ClientState::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        org_state=(QMqttClient::ClientState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //update state
-    QMQTT::ConnectionState state=QMqttClient::Disconnected;
+    QMqttClient::ClientState state=QMqttClient::Disconnected;
     if(client)state=client->connectionState();
     m_lastSubscriptionState=subscriptionState;
     m_lastClientConnectionState=state;
 
     //what we will emit this time if changed
-    if((state==QMQTT::STATE_CONNECTED)&&(subscriptionState))
+    if((state==QMqttClient::ClientState::Connected)&&(subscriptionState))
     {
-        state=(QMQTT::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        state=(QMqttClient::ClientState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //emit if changed
