@@ -270,6 +270,6 @@ void MqttSubscriber::ACARSslot(ACARSItem &acarsitem)
     aco=acarsitem;
     QByteArray ba=qCompress(aco,9);
     QMqttMessage message(messageId, settings.topic,ba);
-    client->publish(message);
+    client->publish(QMQTT_DEFAULT_TOPIC, message);
     messageId++;
 }
