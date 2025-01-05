@@ -118,14 +118,14 @@ void MqttSubscriber::connectToHost()
     client_list.append(client);
 
     //add the connections
-    connect(client, &MQttClient::connected, this, &MqttSubscriber::onConnected);
-    connect(client, &MQttClient::subscribed, this, &MqttSubscriber::onSubscribed);
-    connect(client, &MQttClient::received, this, &MqttSubscriber::onReceived);
-    connect(client, &MQttClient::sslErrors, this, &MqttSubscriber::onSslErrors);
-    connect(client, &MQttClient::disconnected, this, &MqttSubscriber::onDisconnected);
-    connect(client, &MQttClient::destroyed, this, &MqttSubscriber::onClientDestroyed);
-    connect(client, &MQttClient::error, this, &MqttSubscriber::onError);
-    connect(client, &MQttClient::unsubscribed, this, &MqttSubscriber::onUnsubscribed);
+    connect(client, &QMqttClient::connected, this, &MqttSubscriber::onConnected);
+    connect(client, &QMqttClient::subscribed, this, &MqttSubscriber::onSubscribed);
+    connect(client, &QMqttClient::received, this, &MqttSubscriber::onReceived);
+    connect(client, &QMqttClient::sslErrors, this, &MqttSubscriber::onSslErrors);
+    connect(client, &QMqttClient::disconnected, this, &MqttSubscriber::onDisconnected);
+    connect(client, &QMqttClient::destroyed, this, &MqttSubscriber::onClientDestroyed);
+    connect(client, &QMqttClient::error, this, &MqttSubscriber::onError);
+    connect(client, &QMqttClient::unsubscribed, this, &MqttSubscriber::onUnsubscribed);
 
     client->setClientId(settings.clientId);
     client->setUsername(settings.username);
