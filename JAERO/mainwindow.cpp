@@ -1096,7 +1096,7 @@ void MainWindow::acceptsettings()
     }
 
     if(settingsdialog->zmqAudioInputEnabled)sourcelabel->setText(" "+settingsdialog->zmqAudioInputTopic+" ");
-    else sourcelabel->setText(" "+settingsdialog->audioinputdevice.description+" ");
+    else sourcelabel->setText(" "+settingsdialog->audioinputdevice.description()+" ");
 
     if(settingsdialog->localAudioOutEnabled&&(!ui->actionSound_Out->isVisible()))
     {
@@ -1260,7 +1260,7 @@ void MainWindow::acceptsettings()
    {
         if(!beep)
             beep=new QSoundEffect(this);
-            beep.setSource(":/sounds/beep.wav")
+            beep->setSource(":/sounds/beep.wav")
    }else{
         if(beep)
         {
@@ -1562,7 +1562,7 @@ bool MainWindow::formatACARSItem(const ACARSItem &acarsitem, const QString &msgf
                 json["MODE"]=(QString)acarsitem.MODE;
                 json["TAK"]=(QString)TAKstr;
                 json["LABEL"]=QString("%1%2").arg(QChar(acarsitem.LABEL[0])).arg(QChar(label1));
-                json["BI"]=(QString)acarsitem.BI;
+                json["BI"]=QString(QChar(acarsitem.BI));
             }
             //if there is a message then add it and any parsing using arincparser
             if(!message.isEmpty())
@@ -1594,7 +1594,7 @@ bool MainWindow::formatACARSItem(const ACARSItem &acarsitem, const QString &msgf
                 QJsonObject acars;
                 acars["mode"]=(QString)acarsitem.MODE;
                 acars["ack"]=(QString)TAKstr;
-                acars["blk_id"]=(QString)acarsitem.BI;
+                acars["blk_id"]=QString(QChar(acarsitem.BI));
                 acars["label"]=QString("%1%2").arg(QChar(acarsitem.LABEL[0])).arg(QChar(label1));
                 acars["reg"]=(QString)acarsitem.PLANEREG;
 
