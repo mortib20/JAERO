@@ -1466,7 +1466,7 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                     if((message==User_data_ISU_SSU_R_channel)&&(donotdisplaysus.contains(0xC0)))decline.clear();
                     else if(donotdisplaysus.contains(message))decline.clear();//do not display these SUs as given to us by user
 
-                    decodedbytes+=decline;
+                    decodedbytes += decline.toUtf8();
 
                    }
                     break;
@@ -2445,7 +2445,7 @@ QByteArray &AeroL::DecodeC(QVector<short> &bits)
 
                         // set the response text for upper window
 
-                        decodedbytes+=decline;
+                        decodedbytes += decline.toUtf8();
                         infofield.clear();
                     }
 
