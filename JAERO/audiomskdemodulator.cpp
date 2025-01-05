@@ -40,13 +40,14 @@ void AudioMskDemodulator::setSettings(Settings _settings)
         //set the format
         m_format.setSampleRate(settings.Fs);
         m_format.setChannelCount(1);
-        m_format.setSampleSize(16);
-        m_format.setCodec("audio/pcm");
-        M_format.setByteOrder(QAudioFormat::LittleEndian);
-        m_format.setSampleType(QAudioFormat::SignedInt);
+        //m_format.setSampleSize(16);
+        //m_format.setCodec("audio/pcm");
+        m_format.setByteOrder(QAudioFormat::LittleEndian);
+        //m_format.setSampleType(QAudioFormat::SignedInt);
+        m_format.setSampleFormat(QAudioFormat::Int16);
 
         //setup
-        m_audioInput = new QAudioInput(settings.audio_device_in, m_format, this);
+        m_audioInput = new QAudioInput(settings.audio_device_in, m_format, parent);
         // m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
     }
     settings=_settings;
