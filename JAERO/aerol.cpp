@@ -1521,7 +1521,8 @@ QByteArray &AeroL::Decode(QVector<short> &bits, bool soft)//0 bit --> oldest bit
                         if((message==User_data_ISU_SSU_T_channel)&&(donotdisplaysus.contains(0xC0)))decline.clear();
                         else if(donotdisplaysus.contains(message))decline.clear();//do not display these SUs as given to us by user
 
-                        decodedbytes+=decline;decline.clear();
+                        decodedbytes += decline.toUtf8();
+                        decline.clear();
 
                     }// done with this burst, reset data counters
 
