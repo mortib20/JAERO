@@ -13,7 +13,7 @@
 
 DEFINES += JAERO_VERSION=\\\"v1.0.4.14\\\"
 
-QT       += multimedia core network gui svg sql qmqtt
+QT       += multimedia core network gui svg sql mqtt
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
