@@ -121,10 +121,10 @@ void MqttSubscriber::connectToHost()
     connect(client, &QMqttClient::connected, this, &MqttSubscriber::onConnected);
     connect(client, &QMqttClient::subscribed, this, &MqttSubscriber::onSubscribed);
     connect(client, &QMqttClient::received, this, &MqttSubscriber::onReceived);
-    connect(client, &QMqttClient::sslErrors, this, &MqttSubscriber::onSslErrors);
-    connect(client, &QMqttClient::disconnected, this, &MqttSubscriber::onDisconnected);
-    connect(client, &QMqttClient::destroyed, this, &MqttSubscriber::onClientDestroyed);
-    connect(client, &QMqttClient::error, this, &MqttSubscriber::onError);
+    // connect(client, &QMqttClient::sslErrors, this, &MqttSubscriber::onSslErrors);
+    // connect(client, &QMqttClient::disconnected, this, &MqttSubscriber::onDisconnected);
+    // connect(client, &QMqttClient::destroyed, this, &MqttSubscriber::onClientDestroyed);
+    // connect(client, &QMqttClient::error, this, &MqttSubscriber::onError);
     connect(client, &QMqttClient::unsubscribed, this, &MqttSubscriber::onUnsubscribed);
 
     client->setClientId(settings.clientId);
