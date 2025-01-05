@@ -64,9 +64,9 @@ signals:
 private:
     ACARSItem_QObject aco;
     MqttSubscriber_Settings_Object settings;
-    QMqtt::Client *client;
+    QMqtt::QMqttClient *client;
     void delay(int delay_ms);
-    QList<QMqtt::Client *> client_list;
+    QList<QMqtt::QMqttClient *> client_list;
     int messageId;
 
     //if you subscribe to something you don't
@@ -86,7 +86,7 @@ private slots:
     void onDisconnected();
     void onClientDestroyed(QObject * = nullptr);
     void onSubscribeTimeout();
-    void onError(const QMqtt::ClientError error);
+    void onError(const QMqtt::QMqttClient::ClientError error);
     void onUnsubscribed(const QString& topic);
 };
 
