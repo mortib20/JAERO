@@ -44,12 +44,12 @@ void SettingsDialog::populatepublicvars()
     donotdisplaysus.clear();
     QRegularExpression rx("([\\da-fA-F]+)");
     int pos = 0;
-    while ((pos = rx.indexIn(ui->lineEditdonotdisplaysus->text(), pos)) != -1)
+    while (pos < ui->lineEditdonotdisplaysus->text().length())
     {
         bool ok = false;
-        uint value = rx.cap(1).toUInt(&ok,16);
+        uint value = rx.captured(1).toUInt(&ok,16);
         if(ok)donotdisplaysus.push_back(value);
-        pos += rx.matchedLength();
+        pos += rx.capturedLength();
     }
 
     audioinputdevice=QMediaDevices::defaultAudioInput();
