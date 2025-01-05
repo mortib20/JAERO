@@ -39,7 +39,7 @@ class MqttSubscriber : public QObject
     Q_OBJECT
 public:
 
-    //has QMQTT::ConnectionState enum is a subset of this
+    //has QMqtt::ConnectionState enum is a subset of this
     enum ConnectionState
     {
         STATE_INIT = 0,
@@ -64,16 +64,16 @@ signals:
 private:
     ACARSItem_QObject aco;
     MqttSubscriber_Settings_Object settings;
-    QMQTT::Client *client;
+    QMqtt::Client *client;
     void delay(int delay_ms);
-    QList<QMQTT::Client *> client_list;
+    QList<QMqtt::Client *> client_list;
     int messageId;
 
     //if you subscribe to something you don't
     //have access to m_lastSubscriptionState
     //still gets set.
     bool m_lastSubscriptionState;
-    QMQTT::ConnectionState m_lastClientConnectionState;
+    QMqtt::ConnectionState m_lastClientConnectionState;
 
     void updateState(bool subscriptionState);
     void updateState();
@@ -81,12 +81,12 @@ private:
 private slots:
     void onConnected();
     void onSubscribed(const QString& topic);
-    void onReceived(const QMQTT::Message& message);
+    void onReceived(const QMqtt::Message& message);
     void onSslErrors(const QList<QSslError>& errors);
     void onDisconnected();
     void onClientDestroyed(QObject * = nullptr);
     void onSubscribeTimeout();
-    void onError(const QMQTT::ClientError error);
+    void onError(const QMqtt::ClientError error);
     void onUnsubscribed(const QString& topic);
 };
 
