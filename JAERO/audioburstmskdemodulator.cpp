@@ -1,6 +1,7 @@
 #include "audioburstmskdemodulator.h"
 
 #include <QDebug>
+#include <QMediaDevices>
 
 AudioBurstMskDemodulator::AudioBurstMskDemodulator(QObject *parent)
     :   BurstMskDemodulator(parent),
@@ -37,16 +38,18 @@ void AudioBurstMskDemodulator::setSettings(Settings _settings)
         if(m_audioInput)m_audioInput->deleteLater();
 
         //set the format
+        
         m_format.setSampleRate(settings.Fs);
         m_format.setChannelCount(1);
-        m_format.setSampleSize(16);
-        m_format.setCodec("audio/pcm");
-        m_format.setByteOrder(QAudioFormat::LittleEndian);
-        m_format.setSampleType(QAudioFormat::SignedInt);
+        //m_format.setSampleSize(16);
+        //m_format.setCodec("audio/pcm");
+        //m_format.setByteOrder(QAudioFormat::LittleEndian);
+        //m_format.setSampleType(QAudioFormat::SignedInt);
+        m_format.setSampleFormat(QAudioFormat::Int16);
 
         //setup
-        m_audioInput = new QAudioInput(settings.audio_device_in, m_format, this);
-        m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
+        m_audioInput = new QAudioSink(settings.audio_device_in, m_format, this);
+        // m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
     }
     settings=_settings;
     BurstMskDemodulator::setSettings(settings);
