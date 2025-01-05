@@ -49,7 +49,7 @@ void SettingsDialog::populatepublicvars()
         bool ok = false;
         uint value = rx.captured(1).toUInt(&ok,16);
         if(ok)donotdisplaysus.push_back(value);
-        pos += rx.capturedLength();
+        pos += rx.captureCount();
     }
 
     audioinputdevice=QMediaDevices::defaultAudioInput();
