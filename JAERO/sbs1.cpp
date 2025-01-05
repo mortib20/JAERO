@@ -50,7 +50,7 @@ void SBS1::stoptcpconnection()
 void SBS1::DownlinkBasicReportGroupSlot(DownlinkBasicReportGroup &message)
 {
     //MSG,3,,,AES,,,,,,Call,ALT(int),,,LAT(float),LONG(float),,,0,0,0,0
-    QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,,,,,%s,%d,,,%f,%f,,,0,0,0,0\n",message.AESID,message.downlinkheader.flightid.toLatin1().data(),qRound(message.altitude),message.latitude,message.longitude)).toLatin1();
+    QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,,,,,%s,%d,,,%f,%f,,,0,0,0,0\n",message.AESID,message.downlinkheader.flightid.toLatin1().data(),qRound(message.altitude),message.latitude,message.longitude)).toLatin1();
     SendBAViaTCP(ba);
 }
 
@@ -58,7 +58,7 @@ void SBS1::DownlinkEarthReferenceGroupSlot(DownlinkEarthReferenceGroup &message)
 {
     if(!message.truetrack_isvalid)return;
     //MSG,3,,,AES,,,,,,Call,,GroundSpeed(int),TrueTrack(int),,,VerticalRate(int),,0,0,0,0
-    QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,,,,,%s,,%d,%d,,,%d,,0,0,0,0\n",message.AESID,message.downlinkheader.flightid.toLatin1().data(),qRound(message.groundspeed),qRound(message.truetrack),qRound(message.verticalrate))).toLatin1();
+    QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,,,,,%s,,%d,%d,,,%d,,0,0,0,0\n",message.AESID,message.downlinkheader.flightid.toLatin1().data(),qRound(message.groundspeed),qRound(message.truetrack),qRound(message.verticalrate))).toLatin1();
     SendBAViaTCP(ba);
 }
 
@@ -91,7 +91,7 @@ void SBS1::DownlinkGroupsSlot(DownlinkGroups &groups)
     if(groups.adownlinkbasicreportgroup.valid)
     {
         //MSG,3,,,AES,,[ts_date,ts_time,now_date,now_time],Call,ALT(int),,,LAT(float),LONG(float),,,0,0,0,0
-        QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,%s,%s,%d,,,%f,%f,,,0,0,0,0\n",groups.adownlinkbasicreportgroup.AESID,datesandtimestr.data(),groups.adownlinkbasicreportgroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude)).toLatin1();
+        QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,%s,%s,%d,,,%f,%f,,,0,0,0,0\n",groups.adownlinkbasicreportgroup.AESID,datesandtimestr.data(),groups.adownlinkbasicreportgroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude)).toLatin1();
         SendBAToAllTCPClients(ba);
         //qDebug()<<ba;
     }
@@ -99,7 +99,7 @@ void SBS1::DownlinkGroupsSlot(DownlinkGroups &groups)
     if(groups.adownlinkearthreferencegroup.valid&&groups.adownlinkearthreferencegroup.truetrack_isvalid)
     {
         //MSG,3,,,AES,,[ts_date,ts_time,now_date,now_time],Call,,GroundSpeed(int),TrueTrack(int),,,VerticalRate(int),,0,0,0,0
-        QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,%s,%s,,%d,%d,,,%d,,0,0,0,0\n",groups.adownlinkearthreferencegroup.AESID,datesandtimestr.data(),groups.adownlinkearthreferencegroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkearthreferencegroup.groundspeed),qRound(groups.adownlinkearthreferencegroup.truetrack),qRound(groups.adownlinkearthreferencegroup.verticalrate))).toLatin1();
+        QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,%s,%s,,%d,%d,,,%d,,0,0,0,0\n",groups.adownlinkearthreferencegroup.AESID,datesandtimestr.data(),groups.adownlinkearthreferencegroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkearthreferencegroup.groundspeed),qRound(groups.adownlinkearthreferencegroup.truetrack),qRound(groups.adownlinkearthreferencegroup.verticalrate))).toLatin1();
         SendBAToAllTCPClients(ba);
         //qDebug()<<ba;
     }*/
@@ -110,7 +110,7 @@ void SBS1::DownlinkGroupsSlot(DownlinkGroups &groups)
         if(groups.adownlinkearthreferencegroup.valid&&groups.adownlinkearthreferencegroup.truetrack_isvalid)
         {
             //MSG,3,,,AES,,[ts_date,ts_time,now_date,now_time],Call,ALT(int),GroundSpeed(int),TrueTrack(int),LAT(float),LONG(float),VerticalRate(int),,0,0,0,0
-            QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,%s,%s,%d,%d,%d,%f,%f,%d,,0,0,0,0\n",groups.adownlinkearthreferencegroup.AESID,datesandtimestr.data(),groups.adownlinkearthreferencegroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),qRound(groups.adownlinkearthreferencegroup.groundspeed),qRound(groups.adownlinkearthreferencegroup.truetrack),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude,qRound(groups.adownlinkearthreferencegroup.verticalrate))).toLatin1();
+            QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,%s,%s,%d,%d,%d,%f,%f,%d,,0,0,0,0\n",groups.adownlinkearthreferencegroup.AESID,datesandtimestr.data(),groups.adownlinkearthreferencegroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),qRound(groups.adownlinkearthreferencegroup.groundspeed),qRound(groups.adownlinkearthreferencegroup.truetrack),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude,qRound(groups.adownlinkearthreferencegroup.verticalrate))).toLatin1();
             SendBAViaTCP(ba);
             //qDebug()<<ba;
         }
@@ -118,7 +118,7 @@ void SBS1::DownlinkGroupsSlot(DownlinkGroups &groups)
          {
 
             //MSG,3,,,AES,,[ts_date,ts_time,now_date,now_time],Call,ALT(int),,,LAT(float),LONG(float),,,0,0,0,0
-            QByteArray ba=(((QString)"").aprintf("MSG,3,,,%06X,,%s,%s,%d,,,%f,%f,,,0,0,0,0\n",groups.adownlinkbasicreportgroup.AESID,datesandtimestr.data(),groups.adownlinkbasicreportgroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude)).toLatin1();
+            QByteArray ba=(((QString)"").asprintf("MSG,3,,,%06X,,%s,%s,%d,,,%f,%f,,,0,0,0,0\n",groups.adownlinkbasicreportgroup.AESID,datesandtimestr.data(),groups.adownlinkbasicreportgroup.downlinkheader.flightid.toLatin1().data(),qRound(groups.adownlinkbasicreportgroup.altitude),groups.adownlinkbasicreportgroup.latitude,groups.adownlinkbasicreportgroup.longitude)).toLatin1();
             SendBAViaTCP(ba);
             //qDebug()<<ba;
 
