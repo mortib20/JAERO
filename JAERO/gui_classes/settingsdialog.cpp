@@ -53,9 +53,9 @@ void SettingsDialog::populatepublicvars()
     }
 
     audioinputdevice=QMediaDevices::defaultAudioInput();
-    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::audioOutputs)
+    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::audioOutputs())
     {
-        if(deviceInfo.description==ui->comboBoxsoundcard->currentText())
+        if(deviceInfo.description()==ui->comboBoxsoundcard->currentText())
         {
             audioinputdevice=deviceInfo;
             break;
@@ -150,8 +150,8 @@ void SettingsDialog::populatesettings()
 
     //populate soundcard
     ui->comboBoxsoundcard->clear();
-    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
-        ui->comboBoxsoundcard->addItem(deviceInfo.deviceName());
+    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::audioInputs())
+        ui->comboBoxsoundcard->addItem(deviceInfo.description());
 
     //load settings
     QSettings settings("Jontisoft", settings_name);
