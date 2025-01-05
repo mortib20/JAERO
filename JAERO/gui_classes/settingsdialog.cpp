@@ -45,6 +45,7 @@ void SettingsDialog::populatepublicvars()
     QRegularExpression rx("([\\da-fA-F]+)");
     int pos = 0;
     while (pos < ui->lineEditdonotdisplaysus->text().length()) {
+        bool ok = false;
         QRegularExpressionMatch match = rx.match(ui->lineEditdonotdisplaysus->text(), pos);
         if (match.hasMatch()) {
             uint value = match.captured(1).toUInt(&ok, 16);
