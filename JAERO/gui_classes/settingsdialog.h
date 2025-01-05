@@ -12,7 +12,7 @@
 
 #include <QDialog>
 #include <QVector>
-#include <QAudioDeviceInfo>
+#include <QAudioDevice>
 #include <QJsonArray>
 #include "mqttsubscriber.h"
 
