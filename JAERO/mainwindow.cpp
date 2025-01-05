@@ -1096,7 +1096,7 @@ void MainWindow::acceptsettings()
     }
 
     if(settingsdialog->zmqAudioInputEnabled)sourcelabel->setText(" "+settingsdialog->zmqAudioInputTopic+" ");
-    else sourcelabel->setText(" "+settingsdialog->audioinputdevice.deviceName()+" ");
+    else sourcelabel->setText(" "+settingsdialog->audioinputdevice.description+" ");
 
     if(settingsdialog->localAudioOutEnabled&&(!ui->actionSound_Out->isVisible()))
     {
@@ -1259,7 +1259,8 @@ void MainWindow::acceptsettings()
    if(settingsdialog->beepontextmessage)
    {
         if(!beep)
-            beep=new QSound(":/sounds/beep.wav", this);
+            beep=new QSoundEffect(this);
+            beep.setSource(":/sounds/beep.wav")
    }else{
         if(beep)
         {

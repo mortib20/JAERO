@@ -8,6 +8,7 @@
 #include <QString>
 #include <QDebug>
 #include <QTimer>
+#include <QRandomGenerator>
 
 class TextInputDevice : public QIODevice
 {
@@ -48,7 +49,7 @@ public:
                 int cnt=0;
                 for(;cnt<maxlen;cnt++)
                 {
-                    data[cnt]=idlebytes[qrand()%idlebytes.size()];
+                    data[cnt]=idlebytes[QRandomGenerator::global()->generate()%idlebytes.size()];
                     lastchar=2;
                 }
                 return cnt;
@@ -84,7 +85,7 @@ public:
                 data[i]=tstr.at(i).toLatin1();
                 if(data[i]==18)
                 {
-                  switch(qrand()%2)//seems to work better without 12
+                  switch(QRandomGenerator::global()->generate()%2)//seems to work better without 12
                   {
                   case 0:
                       data[i]=0;
