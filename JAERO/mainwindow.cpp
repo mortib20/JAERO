@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QHostInfo>
+#include <QUrl>
 
 //create a publisher based of the GUI MQTT settings
 //used for testing
@@ -1260,7 +1261,7 @@ void MainWindow::acceptsettings()
    {
         if(!beep)
             beep=new QSoundEffect(this);
-            beep->setSource(":/sounds/beep.wav")
+            beep->setSource(new QUrl(":/sounds/beep.wav"))
    }else{
         if(beep)
         {
