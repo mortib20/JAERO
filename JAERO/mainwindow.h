@@ -13,7 +13,7 @@
 #include "aerol.h"
 #include "gui_classes/planelog.h"
 #include <QFile>
-#include <QSound>
+#include <QSoundEffect>
 #include "sbs1.h"
 #include "gui_classes/qled.h"
 
