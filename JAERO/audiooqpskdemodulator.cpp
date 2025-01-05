@@ -45,7 +45,7 @@ void AudioOqpskDemodulator::setSettings(Settings _settings)
         // m_format.setSampleSize(16);
         // m_format.setCodec("audio/pcm");
         // m_format.setByteOrder(QAudioFormat::LittleEndian);
-        m_format.setSampleType(QAudioFormat::Int16);
+        m_format.setSampleFormat(QAudioFormat::Int16);
 
         //setup
         m_audioInput = new QAudioSink(settings.audio_device_in, m_format, this);
