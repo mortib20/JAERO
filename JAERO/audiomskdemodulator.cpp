@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QMediaDevices>
+#include <QAudioSink>
 
 AudioMskDemodulator::AudioMskDemodulator(QObject *parent)
     :   MskDemodulator(parent),
@@ -47,7 +48,7 @@ void AudioMskDemodulator::setSettings(Settings _settings)
         m_format.setSampleFormat(QAudioFormat::Int16);
 
         //setup
-        m_audioInput = new QAudioInput(settings.audio_device_in, m_format, *parent);
+        m_audioInput = new QAudioSink(settings.audio_device_in, m_format, this);
         // m_audioInput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer
     }
     settings=_settings;

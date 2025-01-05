@@ -6,6 +6,7 @@
 #include <QMediaDevices>
 #include <QAudioInput>
 #include <QAudioFormat>
+#include <QAudioSink>
 
 #include "mskdemodulator.h"
 
@@ -31,7 +32,7 @@ public:
 private:
     Settings settings;
     QAudioFormat m_format;
-    QAudioInput *m_audioInput;
+    QAudioSink *m_audioInput;
 };
 
 #endif // AUDIOMSKDEMODULATOR_H
