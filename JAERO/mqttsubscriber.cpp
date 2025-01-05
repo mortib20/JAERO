@@ -5,22 +5,22 @@
 void MqttSubscriber::updateState(bool subscriptionState)
 {
     //what we emitted last time
-    QMQTT::ConnectionState org_state=m_lastClientConnectionState;
-    if((m_lastClientConnectionState==QMQTT::STATE_CONNECTED)&&(m_lastSubscriptionState))
+    QMqttClient::ConnectionState org_state=m_lastClientConnectionState;
+    if((m_lastClientConnectionState==QMqttClient::STATE_CONNECTED)&&(m_lastSubscriptionState))
     {
-        org_state=(QMQTT::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        org_state=(QMqttClient::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //update state
-    QMQTT::ConnectionState state=QMQTT::STATE_DISCONNECTED;
+    QMqttClient::ConnectionState state=QMqttClient::STATE_DISCONNECTED;
     if(client)state=client->connectionState();
     m_lastSubscriptionState=subscriptionState;
     m_lastClientConnectionState=state;
 
     //what we will emit this time if changed
-    if((state==QMQTT::STATE_CONNECTED)&&(subscriptionState))
+    if((state==QMqttClient::STATE_CONNECTED)&&(subscriptionState))
     {
-        state=(QMQTT::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        state=(QMqttClient::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //emit if changed
@@ -40,14 +40,14 @@ MqttSubscriber::MqttSubscriber(QObject* parent) : QObject(parent),
     client(nullptr),
     messageId(0),
     m_lastSubscriptionState(false),
-    m_lastClientConnectionState(QMQTT::STATE_DISCONNECTED)
+    m_lastClientConnectionState(QMqttClient::STATE_DISCONNECTED)
 {
 
 }
 
 MqttSubscriber::~MqttSubscriber()
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::~MqttSubscriber";
 #endif
 }
@@ -61,7 +61,7 @@ void MqttSubscriber::onSslErrors(const QList<QSslError>& errors)
 
     // Investigate the errors here, if you find no serious problems, call ignoreSslErrors()
     // to continue connecting.
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<errors;
 #endif
     if(!client)return;
@@ -92,7 +92,7 @@ void MqttSubscriber::delay(int delay_ms)
 void MqttSubscriber::connectToHost()
 {
 
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::connectToHost";
 #endif
 
@@ -106,11 +106,11 @@ void MqttSubscriber::connectToHost()
     //create a new client with us as the parent
     if(settings.encryption)
     {
-        client=new QMQTT::Client(settings.host,settings.port,QSslConfiguration::defaultConfiguration(),false,this);
+        client=new QMqttClient::Client(settings.host,settings.port,QSslConfiguration::defaultConfiguration(),false,this);
     }
     else
     {
-        client=new QMQTT::Client(QHostAddress(settings.host),settings.port,this);
+        client=new QMqttClient::Client(QHostAddress(settings.host),settings.port,this);
     }
 
     //add it to the list
@@ -118,14 +118,14 @@ void MqttSubscriber::connectToHost()
     client_list.append(client);
 
     //add the connections
-    connect(client, &QMQTT::Client::connected, this, &MqttSubscriber::onConnected);
-    connect(client, &QMQTT::Client::subscribed, this, &MqttSubscriber::onSubscribed);
-    connect(client, &QMQTT::Client::received, this, &MqttSubscriber::onReceived);
-    connect(client, &QMQTT::Client::sslErrors, this, &MqttSubscriber::onSslErrors);
-    connect(client, &QMQTT::Client::disconnected, this, &MqttSubscriber::onDisconnected);
-    connect(client, &QMQTT::Client::destroyed, this, &MqttSubscriber::onClientDestroyed);
-    connect(client, &QMQTT::Client::error, this, &MqttSubscriber::onError);
-    connect(client, &QMQTT::Client::unsubscribed, this, &MqttSubscriber::onUnsubscribed);
+    connect(client, &QMqttClient::Client::connected, this, &MqttSubscriber::onConnected);
+    connect(client, &QMqttClient::Client::subscribed, this, &MqttSubscriber::onSubscribed);
+    connect(client, &QMqttClient::Client::received, this, &MqttSubscriber::onReceived);
+    connect(client, &QMqttClient::Client::sslErrors, this, &MqttSubscriber::onSslErrors);
+    connect(client, &QMqttClient::Client::disconnected, this, &MqttSubscriber::onDisconnected);
+    connect(client, &QMqttClient::Client::destroyed, this, &MqttSubscriber::onClientDestroyed);
+    connect(client, &QMqttClient::Client::error, this, &MqttSubscriber::onError);
+    connect(client, &QMqttClient::Client::unsubscribed, this, &MqttSubscriber::onUnsubscribed);
 
     client->setClientId(settings.clientId);
     client->setUsername(settings.username);
@@ -143,20 +143,20 @@ void MqttSubscriber::connectToHost()
 
 void MqttSubscriber::onClientDestroyed(QObject *client)
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
-    qDebug()<<"MqttSubscriber::onClientDestroyed: client index ="<<client_list.indexOf((QMQTT::Client*)client);
-    if(client_list.indexOf((QMQTT::Client*)client)<0)
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
+    qDebug()<<"MqttSubscriber::onClientDestroyed: client index ="<<client_list.indexOf((QMqttClient::Client*)client);
+    if(client_list.indexOf((QMqttClient::Client*)client)<0)
     {
         qDebug()<<"MqttSubscriber::onClientDestroyed: error can't find client in list";
     }
 #endif
-    client_list.removeAll((QMQTT::Client*)client);
+    client_list.removeAll((QMqttClient::Client*)client);
     updateState(false);
 }
 
 void MqttSubscriber::onDisconnected()
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::onDisconnected";
 #endif
     updateState(false);
@@ -166,13 +166,13 @@ void MqttSubscriber::setSettings(const MqttSubscriber_Settings_Object &settings)
 {
     if(this->settings!=settings)
     {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
         qDebug()<<"MqttSubscriber::setSettings: settings have changed";
 #endif
         this->settings=settings;
-        if((client)&&(client->connectionState()!=QMQTT::STATE_DISCONNECTED))
+        if((client)&&(client->connectionState()!=QMqttClient::STATE_DISCONNECTED))
         {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
             qDebug()<<"MqttSubscriber::setSettings: reconnecting to host with new settings";
 #endif
             connectToHost();
@@ -182,7 +182,7 @@ void MqttSubscriber::setSettings(const MqttSubscriber_Settings_Object &settings)
 
 void MqttSubscriber::onConnected()
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::onConnected";
 #endif
     updateState(false);
@@ -191,22 +191,22 @@ void MqttSubscriber::onConnected()
 
 void MqttSubscriber::onSubscribed(const QString& topic)
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::onSubscribed:"<<topic;
 #endif
     if((settings.topic==topic)&&(settings.subscribe))
     {
         updateState(true);
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
         qDebug()<<"MqttSubscriber::onSubscribed: subscribed to wanted topic";
 #endif
     }
 }
 
-void MqttSubscriber::onError(const QMQTT::ClientError error)
+void MqttSubscriber::onError(const QMqttClient::ClientError error)
 {
     Q_UNUSED(error)
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::onError"<<error;
 #endif
     updateState();
@@ -214,7 +214,7 @@ void MqttSubscriber::onError(const QMQTT::ClientError error)
 
 void MqttSubscriber::onUnsubscribed(const QString& topic)
 {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::onUnsubscribed";
 #endif
     if((settings.topic==topic)&&(settings.subscribe))
@@ -229,33 +229,33 @@ void MqttSubscriber::onSubscribeTimeout()
             (client)&&
             (settings.subscribe)&&
             (!m_lastSubscriptionState)&&
-            ((client->connectionState()==QMQTT::STATE_CONNECTED))
+            ((client->connectionState()==QMqttClient::STATE_CONNECTED))
       )
     {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
         qDebug()<<"MqttSubscriber::onSubscribeTimeout: tring to subscribe to"<<settings.topic;
 #endif
         client->subscribe(settings.topic, 0);
-        QTimer::singleShot(QMQTT_SUBSCRIBE_TIME_IN_MS,this,SLOT(onSubscribeTimeout()));
+        QTimer::singleShot(QMqttClient_SUBSCRIBE_TIME_IN_MS,this,SLOT(onSubscribeTimeout()));
     }
 }
 
-void MqttSubscriber::onReceived(const QMQTT::Message& message)
+void MqttSubscriber::onReceived(const QMqttClient::Message& message)
 {
-//#ifdef QMQTT_DEBUG_SUBSCRIBER
+//#ifdef QMqttClient_DEBUG_SUBSCRIBER
 //    qDebug()<<"MqttSubscriber::onReceived: receiving a message";
 //#endif
     if(!settings.subscribe)return;
     QByteArray ba=qUncompress(message.payload());
     if(!aco.fromQByteArray(ba))
     {
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
         qDebug()<<"received message looks bad. ditching";
 #endif
         qDebug()<<message.payload();
         return;
     }
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     else qDebug()<<"received good message";
 #endif
     emit ACARSsignal(aco.toACARSItem());
@@ -264,12 +264,12 @@ void MqttSubscriber::onReceived(const QMQTT::Message& message)
 void MqttSubscriber::ACARSslot(ACARSItem &acarsitem)
 {
     if(!settings.publish)return;
-#ifdef QMQTT_DEBUG_SUBSCRIBER
+#ifdef QMqttClient_DEBUG_SUBSCRIBER
     qDebug()<<"MqttSubscriber::ACARSslot: sending a message";
 #endif
     aco=acarsitem;
     QByteArray ba=qCompress(aco,9);
-    QMQTT::Message message(messageId, settings.topic,ba);
+    QMqttClient::Message message(messageId, settings.topic,ba);
     client->publish(message);
     messageId++;
 }
