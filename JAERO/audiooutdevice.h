@@ -2,7 +2,8 @@
 #define AUDIOOUTDEVICE_H
 
 #include <QObject>
-#include <QAudioOutput>
+#include <QMediaDevices>
+#include <QAudioDevice>
 #include <QVector>
 
 class AudioOutDevice : public QIODevice
@@ -16,7 +17,7 @@ public:
         double Fs;
         Settings()
         {
-            audio_device_out=QAudioDeviceInfo::defaultOutputDevice();
+            audio_device_out=QMediaDevices::defaultAudioOutput();
             buffersizeinsecs=1.0;
             Fs=8000;
         }
