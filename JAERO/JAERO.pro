@@ -15,7 +15,7 @@ DEFINES += JAERO_VERSION=\\\"v1.0.4.14\\\"
 
 QT       += multimedia core network gui svg sql qmqtt
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets  printsupport
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = JAERO
 TEMPLATE = app
@@ -23,7 +23,7 @@ TEMPLATE = app
 INSTALL_PATH = /opt/jaero
 JFFT_PATH = ../../JFFT/
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++17
 
 INCLUDEPATH += $$JFFT_PATH
 
