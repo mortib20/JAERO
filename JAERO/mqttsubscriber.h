@@ -2,7 +2,7 @@
 #define MQTTSUBSCRIBER_H
 
 #include <QObject>
-#include "qmqtt.h"
+#include <QMqttClient>
 #include "acarsitem_converter.h"
 
 //#define QMQTT_DEBUG_SUBSCRIBER
