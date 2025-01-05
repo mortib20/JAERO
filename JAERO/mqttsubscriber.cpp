@@ -131,7 +131,7 @@ void MqttSubscriber::connectToHost()
     client->setUsername(settings.username);
     client->setPassword(settings.password);
     client->setCleanSession(true);
-    client->setAutoReconnect(true);
+    // client->setAutoReconnect(true);
 
     messageId=0;
 
@@ -150,7 +150,7 @@ void MqttSubscriber::onClientDestroyed(QObject *client)
         qDebug()<<"MqttSubscriber::onClientDestroyed: error can't find client in list";
     }
 #endif
-    client_list.removeAll((QMQTT::Client*)client);
+    client_list.removeAll((QMqttClient::Client*)client);
     updateState(false);
 }
 
@@ -170,7 +170,7 @@ void MqttSubscriber::setSettings(const MqttSubscriber_Settings_Object &settings)
         qDebug()<<"MqttSubscriber::setSettings: settings have changed";
 #endif
         this->settings=settings;
-        if((client)&&(client->connectionState()!=QMQTT::STATE_DISCONNECTED))
+        if((client)&&(client->state()!=QMqttClient::ClientState::Disconnected))
         {
 #ifdef QMQTT_DEBUG_SUBSCRIBER
             qDebug()<<"MqttSubscriber::setSettings: reconnecting to host with new settings";
@@ -203,7 +203,7 @@ void MqttSubscriber::onSubscribed(const QString& topic)
     }
 }
 
-void MqttSubscriber::onError(const QMQTT::ClientError error)
+void MqttSubscriber::onError(const QMqttClient::ClientError error)
 {
     Q_UNUSED(error)
 #ifdef QMQTT_DEBUG_SUBSCRIBER
@@ -229,7 +229,7 @@ void MqttSubscriber::onSubscribeTimeout()
             (client)&&
             (settings.subscribe)&&
             (!m_lastSubscriptionState)&&
-            ((client->connectionState()==QMQTT::STATE_CONNECTED))
+            ((client->state()==QMqttClient::ClientState::Connected))
       )
     {
 #ifdef QMQTT_DEBUG_SUBSCRIBER
@@ -240,7 +240,7 @@ void MqttSubscriber::onSubscribeTimeout()
     }
 }
 
-void MqttSubscriber::onReceived(const QMQTT::Message& message)
+void MqttSubscriber::onReceived(const QMqttNessage& message)
 {
 //#ifdef QMQTT_DEBUG_SUBSCRIBER
 //    qDebug()<<"MqttSubscriber::onReceived: receiving a message";
