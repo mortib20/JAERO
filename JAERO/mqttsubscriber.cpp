@@ -6,21 +6,21 @@ void MqttSubscriber::updateState(bool subscriptionState)
 {
     //what we emitted last time
     QMqttClient::ConnectionState org_state=m_lastClientConnectionState;
-    if((m_lastClientConnectionState==QMqttClient::STATE_CONNECTED)&&(m_lastSubscriptionState))
+    if((m_lastClientConnectionState==QMqttClient::ClientState::STATE_CONNECTED)&&(m_lastSubscriptionState))
     {
-        org_state=(QMqttClient::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        org_state=(QMqttClient::ClientState::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //update state
-    QMqttClient::ConnectionState state=QMqttClient::STATE_DISCONNECTED;
-    if(client)state=client->connectionState();
+    QMqttClient::ConnectionState state=QMqttClient::ClientState::STATE_DISCONNECTED;
+    if(client)state=client->state();
     m_lastSubscriptionState=subscriptionState;
     m_lastClientConnectionState=state;
 
     //what we will emit this time if changed
-    if((state==QMqttClient::STATE_CONNECTED)&&(subscriptionState))
+    if((state==QMqttClient::ClientState::STATE_CONNECTED)&&(subscriptionState))
     {
-        state=(QMqttClient::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
+        state=(QMqttClient::ClientState::ConnectionState)MqttSubscriber::STATE_CONNECTED_SUBSCRIBED;
     }
 
     //emit if changed
@@ -170,7 +170,7 @@ void MqttSubscriber::setSettings(const MqttSubscriber_Settings_Object &settings)
         qDebug()<<"MqttSubscriber::setSettings: settings have changed";
 #endif
         this->settings=settings;
-        if((client)&&(client->connectionState()!=QMqttClient::STATE_DISCONNECTED))
+        if((client)&&(client->state()!=QMqttClient::STATE_DISCONNECTED))
         {
 #ifdef QMqttClient_DEBUG_SUBSCRIBER
             qDebug()<<"MqttSubscriber::setSettings: reconnecting to host with new settings";
@@ -229,14 +229,14 @@ void MqttSubscriber::onSubscribeTimeout()
             (client)&&
             (settings.subscribe)&&
             (!m_lastSubscriptionState)&&
-            ((client->connectionState()==QMqttClient::STATE_CONNECTED))
+            ((client->state()==QMqttClient::STATE_CONNECTED))
       )
     {
 #ifdef QMqttClient_DEBUG_SUBSCRIBER
         qDebug()<<"MqttSubscriber::onSubscribeTimeout: tring to subscribe to"<<settings.topic;
 #endif
         client->subscribe(settings.topic, 0);
-        QTimer::singleShot(QMqttClient_SUBSCRIBE_TIME_IN_MS,this,SLOT(onSubscribeTimeout()));
+        QTimer::singleShot(QMQTT_SUBSCRIBE_TIME_IN_MS,this,SLOT(onSubscribeTimeout()));
     }
 }
 
