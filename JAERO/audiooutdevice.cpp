@@ -59,7 +59,7 @@ void AudioOutDevice::setSettings(Settings _settings)
         m_format.setSampleFormat(QAudioFormat::Int16);
 
         //setup
-        m_audioOutput = new QAudioOutput(settings.audio_device_out, m_format, this);
+        m_audioOutput = new QAudioSource(settings.audio_device_out, m_format, this);
         // m_audioOutput->setBufferSize(settings.Fs*settings.buffersizeinsecs);//buffersizeinsecs seconds of buffer. this is ignored for a write device.
     }
     settings=_settings;
