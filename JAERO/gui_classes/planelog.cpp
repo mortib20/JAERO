@@ -724,11 +724,10 @@ void PlaneLog::on_toolButtonimg_clicked()
         regstr=REGitem->text().toLower().trimmed();
         regstr.replace(".","");
         QRegularExpression rx("([a-z_0-9]*)");
-        if((regstr.size()==7)&&(rx.indexIn(regstr)!=-1))
-        {
-            if ((regstr.size() == 7)) {
-                QRegularExpressionMatch match = rx.match(regstr);
-                if (match.hasMatch() && match.captured(1).size() == 7)
+        if ((regstr.size() == 7)) {
+            QRegularExpressionMatch match = rx.match(regstr);
+            if (match.hasMatch() && match.captured(1).size() == 7){
+                regstr.insert(2,'-');
             }
         }
     }
