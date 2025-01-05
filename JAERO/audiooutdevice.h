@@ -6,6 +6,9 @@
 #include <QAudioDevice>
 #include <QAudioOutput>
 #include <QVector>
+#include <QAudioInput>
+#include <QAudioFormat>
+#include <QAudioSource>
 
 class AudioOutDevice : public QIODevice
 {
@@ -35,7 +38,7 @@ public slots:
 private:
     Settings settings;
     QAudioFormat m_format;
-    QAudioOutput *m_audioOutput;
+    QAudioSource *m_audioOutput;
     QVector<qint16> circ_buffer;
     int circ_buffer_head;
     int circ_buffer_tail;
