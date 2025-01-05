@@ -240,7 +240,7 @@ void MqttSubscriber::onSubscribeTimeout()
     }
 }
 
-void MqttSubscriber::onReceived(const QMqttNessage& message)
+void MqttSubscriber::onReceived(const QMqttMessage& message)
 {
 //#ifdef QMQTT_DEBUG_SUBSCRIBER
 //    qDebug()<<"MqttSubscriber::onReceived: receiving a message";
@@ -269,7 +269,7 @@ void MqttSubscriber::ACARSslot(ACARSItem &acarsitem)
 #endif
     aco=acarsitem;
     QByteArray ba=qCompress(aco,9);
-    QMQTT::Message message(messageId, settings.topic,ba);
+    QMqttMessage message(messageId, settings.topic,ba);
     client->publish(message);
     messageId++;
 }
