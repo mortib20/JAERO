@@ -74,7 +74,7 @@ private:
     //have access to m_lastSubscriptionState
     //still gets set.
     bool m_lastSubscriptionState;
-    QMqttClient::ConnectionState m_lastClientConnectionState;
+    QMqttClient::ClientState m_lastClientConnectionState;
 
     void updateState(bool subscriptionState);
     void updateState();
