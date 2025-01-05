@@ -1262,7 +1262,7 @@ void MainWindow::acceptsettings()
    {
         if(!beep)
             beep=new QSoundEffect(this);
-            beep->setSource(*new QUrl(":/sounds/beep.wav"))
+            beep->setSource(*new QUrl(":/sounds/beep.wav"));
    }else{
         if(beep)
         {
