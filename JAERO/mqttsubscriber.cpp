@@ -13,7 +13,7 @@ void MqttSubscriber::updateState(bool subscriptionState)
 
     //update state
     QMqttClient::ClientState state=QMqttClient::Disconnected;
-    if(client)state=client->connectionState();
+    if(client)state=client->state();
     m_lastSubscriptionState=subscriptionState;
     m_lastClientConnectionState=state;
 
@@ -40,7 +40,7 @@ MqttSubscriber::MqttSubscriber(QObject* parent) : QObject(parent),
     client(nullptr),
     messageId(0),
     m_lastSubscriptionState(false),
-    m_lastClientConnectionState(QMQTT::STATE_DISCONNECTED)
+    m_lastClientConnectionState(QMqttClient::ClientState::Disconnected)
 {
 
 }
