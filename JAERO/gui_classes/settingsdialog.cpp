@@ -53,9 +53,9 @@ void SettingsDialog::populatepublicvars()
     }
 
     audioinputdevice=QMediaDevices::defaultAudioInput();
-    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::availableDevices(QAudio::AudioInput))
+    foreach (const QAudioDevice &deviceInfo, QAudioDeviceInfo::audioOutputs)
     {
-        if(deviceInfo.deviceName()==ui->comboBoxsoundcard->currentText())
+        if(deviceInfo.description==ui->comboBoxsoundcard->currentText())
         {
             audioinputdevice=deviceInfo;
             break;
