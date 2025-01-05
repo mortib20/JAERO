@@ -31,13 +31,16 @@ INCLUDEPATH += $$JFFT_PATH
 #this is a bit of a mess to get working.
 #he put them in libacars-2/libacars but references in libacars-2/libacars only use libacars in paths
 #so i have to find where libacars-2 is and add that to the INCLUDEPATH
-for(var, $$list($${QMAKE_DEFAULT_INCDIRS})) {
-    new_inc_path_posibility=$$files($${var}/libacars-2, false)
-    !equals(new_inc_path_posibility,"") {
-        #message( "libacars-2 location is "$${new_inc_path_posibility} )
-        INCLUDEPATH += $$new_inc_path_posibility
-    }
-}
+#for(var, $$list($${QMAKE_DEFAULT_INCDIRS})) {
+#    new_inc_path_posibility=$$files($${var}/libacars-2, false)
+#    !equals(new_inc_path_posibility,"") {
+#        #message( "libacars-2 location is "$${new_inc_path_posibility} )
+#        INCLUDEPATH += $$new_inc_path_posibility
+#    }
+#}
+
+INCLUDEPATH += /usr/local/include/libacars-2
+LIBS += -L/usr/local/lib -lacars
 
 DEFINES += _USE_MATH_DEFINES
 
