@@ -3,6 +3,7 @@
 #include <libacars/libacars.h>
 #include <libacars/acars.h>
 #include <libacars/vstring.h>
+#include <QRegularExpression>
 
 ArincParse::ArincParse(QObject *parent) : QObject(parent)
 {
@@ -141,7 +142,7 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
     downlinkheader.BlockSequenceCharacter=acarsitem.message.at(3).toLatin1();
     downlinkheader.flightid=acarsitem.message.mid(4,6);//unsually flight # but not allways
     //remove zero padding in flight id
-    QRegExp rx("^[A-Z]*(0*)");
+    QRegularExpression rx("^[A-Z]*(0*)");
     int pos = rx.indexIn(downlinkheader.flightid);
     if(pos!=-1)downlinkheader.flightid.remove(rx.pos(1),rx.cap(1).size());
     if((downlinkheader.flightid.size()<3)||!downlinkheader.flightid[0].isLetter())downlinkheader.flightid.clear();//lets say not a flight #
@@ -256,7 +257,7 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
                 //ETA (is this time till arrival or time at arrival??)
                 double eta=((double)extractqint32(appmessage_bytes,i-1+10,0,14,false));
 
-                arincmessage.info+=middlespacer+((QString)"Next waypoint Lat = %1 Long = %2 Alt = %3 feet. ETA = %4\n").arg(latitude).arg(longitude).arg(altitude).arg(QDateTime::fromTime_t(eta).toUTC().toString("hh:mm:ss"));
+                arincmessage.info+=middlespacer+((QString)"Next waypoint Lat = %1 Long = %2 Alt = %3 feet. ETA = %4\n").arg(latitude).arg(longitude).arg(altitude).arg(QDateTime::fromSecsSinceEpoch(eta).toUTC().toString("hh:mm:ss"));
 
                 i+=18;//goto next message
                 break;
@@ -392,7 +393,7 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
                 double altitude=((double)extractqint32(appmessage_bytes,i-1+9,6,16,true))*alt_scaller;
                 //Time stamp
                 double time_stamp=((double)extractqint32(appmessage_bytes,i-1+11,7,15,false))*time_scaller;
-                QTime ts=QDateTime::fromTime_t(qRound(time_stamp)).toUTC().time();
+                QTime ts=QDateTime::fromSecsSinceEpoch(qRound(time_stamp)).toUTC().time();
                 QString ts_str=(ts.toString("mm")+"m "+ts.toString("ss")+"s");
                 //FOM
                 int FOM=((uchar)appmessage_bytes.at(i-1+11))&0x1F;
@@ -451,8 +452,8 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
                 //Projected Time
                 double projected_time=((double)extractqint32(appmessage_bytes,i-1+9,5,14,false));
 
-                if(truetrack_isvalid)arincmessage.info+=middlespacer+((QString)"Intermediate intent: Distance = %1 nm. True Track = %2 deg. Alt = %3 feet. Projected Time = %4\n").arg(distance).arg(qRound(truetrack)).arg(altitude).arg(QDateTime::fromTime_t(projected_time).toUTC().toString("hh:mm:ss"));
-                 else middlespacer+((QString)"Intermediate intent: Distance = %1 nm. Alt = %2 feet. Projected Time = %3\n").arg(distance).arg(altitude).arg(QDateTime::fromTime_t(projected_time).toUTC().toString("hh:mm:ss"));
+                if(truetrack_isvalid)arincmessage.info+=middlespacer+((QString)"Intermediate intent: Distance = %1 nm. True Track = %2 deg. Alt = %3 feet. Projected Time = %4\n").arg(distance).arg(qRound(truetrack)).arg(altitude).arg(QDateTime::fromSecsSinceEpoch(projected_time).toUTC().toString("hh:mm:ss"));
+                 else middlespacer+((QString)"Intermediate intent: Distance = %1 nm. Alt = %2 feet. Projected Time = %3\n").arg(distance).arg(altitude).arg(QDateTime::fromSecsSinceEpoch(projected_time).toUTC().toString("hh:mm:ss"));
 
                 i+=9;//goto next message
                 break;
@@ -471,7 +472,7 @@ bool ArincParse::parseDownlinkmessage(ACARSItem &acarsitem, bool onlyuselibacars
                 //Projected Time
                 double projected_time=((double)extractqint32(appmessage_bytes,i-1+10,0,14,false));
 
-                arincmessage.info+=middlespacer+((QString)"Fixed intent: Lat = %1 Long = %2 Alt = %3 feet. Projected Time = %4\n").arg(latitude).arg(longitude).arg(altitude).arg(QDateTime::fromTime_t(projected_time).toUTC().toString("hh:mm:ss"));
+                arincmessage.info+=middlespacer+((QString)"Fixed intent: Lat = %1 Long = %2 Alt = %3 feet. Projected Time = %4\n").arg(latitude).arg(longitude).arg(altitude).arg(QDateTime::fromSecsSinceEpoch(projected_time).toUTC().toString("hh:mm:ss"));
 
                 i+=10;//goto next message
                 break;
