@@ -505,7 +505,7 @@ void PlaneLog::ACARSslot(ACARSItem &acarsitem)
     ui->tableWidget->setSortingEnabled(true);//allow sorting again
 
     //send a request off to the DB for an update. responce will be async
-    if(!planesfolder.isNull())dbc->request(planesfolder,((QString)"").aasprintf("%06X",acarsitem.isuitem.AESID),&dBaseRequestSourceACARSMessage);
+    if(!planesfolder.isNull())dbc->request(planesfolder,((QString)"").asprintf("%06X",acarsitem.isuitem.AESID),&dBaseRequestSourceACARSMessage);
 }
 
 void PlaneLog::on_actionClear_triggered()
@@ -604,8 +604,8 @@ void PlaneLog::on_actionUpDown_triggered()
 void PlaneLog::on_actionLeftRight_triggered()
 {
     QFontMetrics fm(ui->tableWidget->font());
-    int big=fm.width('_')*(220+50);
-    int small=fm.width('_')*(10);
+    int big = fm.horizontalAdvance('_') * (220 + 50);
+    int small = fm.horizontalAdvance('_') * (10);
     if(ui->tableWidget->columnWidth(ui->tableWidget->columnCount()-1)>(big-2))
     {
         ui->tableWidget->setColumnWidth(ui->tableWidget->columnCount()-1,small);
@@ -700,11 +700,9 @@ void PlaneLog::on_toolButtonimg_clicked()
     QStringList list=str.split('\n');
     if(list.size()>3)
     {
-        QRegularExpression rx("Reg. ID([\\s]*)(.+)");
-        if(rx.indexIn(list[0])!=-1)
-        {
-            regstr=rx.cap(2).toLower();
-        }
+        QRegularExpressionMatch match = rx.match(list[0]);
+        if (match.hasMatch())
+            regstr = match.captured(2).toLower();
     }
 
     /*QString str=ui->plainTextEditdatabase->toPlainText();
@@ -727,9 +725,9 @@ void PlaneLog::on_toolButtonimg_clicked()
         QRegularExpression rx("([a-z_0-9]*)");
         if((regstr.size()==7)&&(rx.indexIn(regstr)!=-1))
         {
-            if(rx.cap(1).size()==7)
-            {
-                regstr.insert(2,'-');
+            if ((regstr.size() == 7)) {
+                QRegularExpressionMatch match = rx.match(regstr);
+                if (match.hasMatch() && match.captured(1).size() == 7)
             }
         }
     }
