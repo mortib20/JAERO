@@ -150,8 +150,8 @@ echo "jaero make done"
 mkdir release/jaero
 cp release/JAERO.exe release/jaero/
 cd release/jaero
-echo "starting windeployqt"
-windeployqt.exe --no-translations --opengl software --force JAERO.exe || echo "windeployqt had issues but continuing anyway"
+#echo "starting windeployqt"
+#windeployqt.exe --no-translations --opengl software --force JAERO.exe || echo "windeployqt had issues but continuing anyway"
 echo "deploy done"
 echo "copying dlls"
 cp /mingw64/bin/libstdc++-6.dll $PWD
@@ -166,8 +166,9 @@ cp /mingw64/bin/zlib1.dll $PWD
 cp /mingw64/bin/qcustomplot2.dll $PWD
 cp /mingw64/bin/Qt5PrintSupport.dll $PWD
 cp /mingw64/bin/libdouble-conversion.dll $PWD
-cp /mingw64/bin/libicuin74.dll $PWD
-cp /mingw64/bin/libicuuc74.dll $PWD
+cp /mingw64/bin/libicuin*.dll $PWD
+cp /mingw64/bin/libicuuc*.dll $PWD
+cp /mingw64/bin/libicudt*.dll $PWD
 cp /mingw64/bin/libpcre2-16-0.dll $PWD
 cp /mingw64/bin/libpcre2-8-0.dll $PWD
 cp /mingw64/bin/libzstd.dll $PWD
@@ -176,7 +177,6 @@ cp /mingw64/bin/libpng16-16.dll $PWD
 cp /mingw64/bin/libfreetype-6.dll $PWD
 cp /mingw64/bin/libgraphite2.dll $PWD
 cp /mingw64/bin/libglib-2.0-0.dll $PWD
-cp /mingw64/bin/libicudt74.dll $PWD
 cp /mingw64/bin/libbz2-1.dll $PWD
 cp /mingw64/bin/libbrotlidec.dll $PWD
 cp /mingw64/bin/libintl-8.dll $PWD
