@@ -156,7 +156,7 @@ win32 {
 LIBS += -lqcustomplot2 -llibzmq
 } else {
 #message("not windows")
-LIBS += -lqcustomplot -lzmq
+LIBS += -lzmq
 }
 
 FORMS    += mainwindow.ui \
