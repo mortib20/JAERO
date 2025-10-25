@@ -12,6 +12,7 @@
 #remember to compile libvorbis,libogg, and libcorrect before compiling this
 
 DEFINES += JAERO_VERSION=\\\"v1.0.4.14\\\"
+DEFINES += QT_STATIC_BUILD
 
 QT       += multimedia core network gui svg sql qmqtt
 
@@ -149,7 +150,7 @@ HEADERS  += mainwindow.h \
     qcustomplot.h
 
 # Tell the qcustomplot header that it will be used as library:
-DEFINES += QCUSTOMPLOT_USE_LIBRARY
+#DEFINES += QCUSTOMPLOT_USE_LIBRARY
 #qcustom plot is called different names on different systems
 win32 {
 #message("windows")
