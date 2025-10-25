@@ -19,13 +19,26 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
+      # -------------------------
       # Checkout the repository
+      # -------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           path: JAERO
 
-      # Install dependencies (Windows)
+      # =================================================================
+      # WINDOWS BUILD
+      # =================================================================
+      - name: Cache MSYS2 packages
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: C:\msys64\var\cache\pacman\pkg
+          key: ${{ runner.os }}-msys2-${{ hashFiles('.github/workflows/*.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-msys2-
+
       - name: Setup MSYS2 (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         uses: msys2/setup-msys2@v2
@@ -46,29 +59,22 @@ jobs:
             p7zip
             unzip
 
-      # Build for Windows
+      # Optional: Cache CMake build folder for Windows
+      - name: Cache Windows CMake build
+        if: ${{ matrix.os == 'windows-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: JAERO/build
+          key: ${{ runner.os }}-cmake-${{ hashFiles('JAERO/CMakeLists.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-cmake-
+
       - name: Build (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           echo "Running Windows build..."
           ./JAERO/ci-windows-build.sh
         shell: msys2 {0}
-
-      # Install dependencies (Linux)
-      - name: Install dependencies (Linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
-                                  build-essential cmake git libtool libzmq3-dev libvorbis-dev
-
-      # Build for Linux
-      - name: Build (Linux)
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: |
-          echo "Running Linux build..."
-          ./JAERO/ci-linux-build.sh
-        shell: bash
 
       # Upload Windows artifacts
       - name: Upload Windows artifacts
@@ -80,6 +86,42 @@ jobs:
           path: |
             JAERO/JAERO/release/*.zip
 
+      # =================================================================
+      # LINUX BUILD
+      # =================================================================
+      - name: Cache APT packages
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/*.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-apt-
+
+      - name: Install dependencies (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
+                                  build-essential cmake git libtool libzmq3-dev libvorbis-dev
+
+      # Cache CMake build folder for Linux
+      - name: Cache Linux CMake build
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: actions/cache@v4
+        with:
+          path: JAERO/build
+          key: ${{ runner.os }}-cmake-${{ hashFiles('JAERO/CMakeLists.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-cmake-
+
+      - name: Build (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          echo "Running Linux build..."
+          ./JAERO/ci-linux-build.sh
+        shell: bash
+
       # Upload Linux artifacts
       - name: Upload Linux artifacts
         if: ${{ matrix.os == 'ubuntu-latest' }}
@@ -90,16 +132,17 @@ jobs:
           path: |
             JAERO/bin/*.tar.gz
 
+  # =================================================================
+  # CREATE GITHUB RELEASE
+  # =================================================================
   release:
     name: Create GitHub Release
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # Download all build artifacts
       - name: Download build artifacts
         uses: actions/download-artifact@v4
 
-      # Create GitHub release
       - name: Create automatic release
         uses: marvinpinto/action-automatic-releases@latest
         with:

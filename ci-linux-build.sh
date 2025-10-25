@@ -91,6 +91,9 @@ else
     cd "$FOLDER"
     git pull $URL
 fi
+
+sed -i 's/cmake_minimum_required *(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5...3.30)/' CMakeLists.txt
+
 #needed for github actions
 git fetch --prune --unshallow --tags || true
 git status > /dev/null 2>&1
