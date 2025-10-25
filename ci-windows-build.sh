@@ -113,8 +113,6 @@ else
     git pull $URL
 fi
 
-sed -i 's/cmake_minimum_required *(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5...3.30)/' CMakeLists.txt
-
 cd mbelib-master
 rm -fr build
 mkdir build && cd build
