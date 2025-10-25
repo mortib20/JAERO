@@ -118,7 +118,7 @@ sed -i 's/cmake_minimum_required *(VERSION 3\.1)/cmake_minimum_required(VERSION 
 cd mbelib-master
 rm -fr build
 mkdir build && cd build
-cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=/mingw64/ ..
+cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=/mingw64/ ..
 mingw32-make
 mingw32-make DESTDIR=/../ install
 cp libmbe.dll /mingw64/bin/
