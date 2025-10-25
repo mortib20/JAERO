@@ -195,9 +195,9 @@ cp /mingw64/bin/libjpeg-8.dll $PWD
 cp /mingw64/bin/aeroambe.dll $PWD
 cp /mingw64/bin/libmbe.dll $PWD
 cp /mingw64/bin/libxml2*.dll $PWD
-cp /mingw64/bin/liblzma-5.dll $PWD
-cp /mingw64/bin/libsqlite3-0.dll $PWD
-cp /mingw64/bin/Qt5Qmqtt.dll $PWD
+cp /mingw64/bin/liblzma*.dll $PWD
+cp /mingw64/bin/libsqlite*.dll $PWD
+cp /mingw64/bin/Qt5Qmqtt*.dll $PWD
 echo "copying dlls done"
 #basestation if available
 if [ -f "../../../../basestation/basestation.sqb" ]; then
