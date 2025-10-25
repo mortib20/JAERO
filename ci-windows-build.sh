@@ -198,6 +198,13 @@ cp /mingw64/bin/libxml2*.dll $PWD
 cp /mingw64/bin/liblzma*.dll $PWD
 cp /mingw64/bin/libsqlite*.dll $PWD
 cp /mingw64/bin/Qt5Qmqtt*.dll $PWD
+cp /mingw64/bin/Qt5Core.dll $PWD
+cp /mingw64/bin/Qt5Gui.dll $PWD
+cp /mingw64/bin/Qt5Multimedia.dll $PWD
+cp /mingw64/bin/Qt5Network.dll $PWD
+cp /mingw64/bin/Qt5Widgets.dll $PWD
+cp /mingw64/bin/Qt5Svg.dll $PWD
+cp /mingw64/bin/Qt5Sql.dll $PWD
 echo "copying dlls done"
 #basestation if available
 if [ -f "../../../../basestation/basestation.sqb" ]; then
