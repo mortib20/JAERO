@@ -83,7 +83,7 @@ cd ../..
 
 #libacars
 FOLDER="libacars"
-URL="https://github.com/szpajder/libacars"
+URL="https://github.com/mortib20/libacars"
 if [ ! -d "$FOLDER" ] ; then
     git clone $URL $FOLDER
     cd "$FOLDER"
@@ -105,9 +105,9 @@ cd build
 cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..
 make
 sudo checkinstall \
-            --pkgsource="https://github.com/szpajder/libacars" \
+            --pkgsource="https://github.com/mortib20/libacars" \
             --pkglicense="MIT" \
-            --maintainer="https://github.com/szpajder" \
+            --maintainer="https://github.com/mortib20" \
             --pkgversion="$PACKAGE_VERSION" \
             --pkgrelease="1" \
             --pkgname=libacars-dev \
