@@ -103,7 +103,8 @@ SOURCES += mainwindow.cpp \
     zmq_audioreceiver.cpp \
     mqttsubscriber.cpp \
     acarsitem_converter.cpp \
-    jserialize.cpp
+    jserialize.cpp \
+    qcustomplot.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -144,7 +145,8 @@ HEADERS  += mainwindow.h \
     zmq_audiosender.h \
     mqttsubscriber.h \
     acarsitem_converter.h \
-    jserialize.h
+    jserialize.h \
+    qcustomplot.h
 
 # Tell the qcustomplot header that it will be used as library:
 DEFINES += QCUSTOMPLOT_USE_LIBRARY

@@ -28,7 +28,7 @@ else
     sudo apt-get install qt5-default
 fi
 
-sudo apt-get install cpputest build-essential qtmultimedia5-dev cmake libvorbis-dev libogg-dev libqt5multimedia5-plugins checkinstall libqcustomplot-dev libqt5svg5-dev libzmq3-dev unzip -y
+sudo apt-get install cpputest build-essential qtmultimedia5-dev cmake libvorbis-dev libogg-dev libqt5multimedia5-plugins checkinstall libqt5svg5-dev libzmq3-dev unzip -y
 
 #get script path
 SCRIPT=$(realpath $0)
