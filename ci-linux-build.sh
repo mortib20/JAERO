@@ -99,7 +99,7 @@ echo "PACKAGE_VERSION="$PACKAGE_VERSION
 rm -fr build
 mkdir build
 cd build
-cmake ..
+cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ..
 make
 sudo checkinstall \
             --pkgsource="https://github.com/szpajder/libacars" \
@@ -234,6 +234,9 @@ cd $SCRIPTPATH
 git fetch --prune --unshallow --tags || true
 git status > /dev/null 2>&1
 PACKAGE_VERSION=$(git describe --tags --match 'v*' --dirty 2> /dev/null | tr -d v)
+if [ -z "$PACKAGE_VERSION" ]; then
+  PACKAGE_VERSION="0.0.0"
+fi
 PACKAGE_NAME=jaero
 MAINTAINER=https://github.com/jontio
 PACKAGE_SOURCE=https://github.com/jontio/JAERO
@@ -264,7 +267,7 @@ Package: ${PACKAGE_NAME}
 Source: ${PACKAGE_SOURCE}
 Section: base
 Priority: extra
-Depends: qtmultimedia5-dev, libvorbis-dev, libogg-dev, libqt5multimedia5-plugins, libqcustomplot-dev, libqt5svg5-dev, libzmq3-dev
+Depends: qtmultimedia5-dev, libvorbis-dev, libogg-dev, libqt5multimedia5-plugins, libqt5svg5-dev, libzmq3-dev
 Provides: ${PACKAGE_NAME}
 Maintainer: ${MAINTAINER}
 Version: ${PACKAGE_VERSION%_*}
