@@ -81,6 +81,9 @@ else
     cd "$FOLDER"
     git pull $URL
 fi
+
+sed -i 's/cmake_minimum_required *(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5...3.30)/' CMakeLists.txt
+
 rm -fr build
 mkdir build && cd build
 cmake -G "MinGW Makefiles" -DCMAKE_INSTALL_PREFIX:PATH=/mingw64/ ..
@@ -109,6 +112,9 @@ else
     cd "$FOLDER"
     git pull $URL
 fi
+
+sed -i 's/cmake_minimum_required *(VERSION 3\.1)/cmake_minimum_required(VERSION 3.5...3.30)/' CMakeLists.txt
+
 cd mbelib-master
 rm -fr build
 mkdir build && cd build
