@@ -41,7 +41,7 @@ cd ..
 
 #libacars
 FOLDER="libacars"
-URL="https://github.com/szpajder/libacars"
+URL="https://github.com/mortib20/libacars"
 if [ ! -d "$FOLDER" ] ; then
     git clone $URL $FOLDER
     cd "$FOLDER"
