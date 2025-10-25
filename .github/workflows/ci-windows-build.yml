@@ -1,70 +1,110 @@
-name: build
+name: Build and Release JAERO
+
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
 
 jobs:
   build:
+    name: Build on ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
+
     runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v2
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           path: JAERO
-      # install MSYS2 for windows
-      - name: if windows install MSYS2
+
+      # Install dependencies (Windows)
+      - name: Setup MSYS2 (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
           update: true
-          install: git mingw-w64-x86_64-toolchain autoconf libtool mingw-w64-x86_64-cpputest mingw-w64-x86_64-qt5 mingw-w64-x86_64-cmake mingw-w64-x86_64-libvorbis mingw-w64-x86_64-zeromq zip p7zip unzip
-      # build for windows
-      - name: Windows-CI-Build
+          install: >
+            git
+            mingw-w64-x86_64-toolchain
+            autoconf
+            libtool
+            mingw-w64-x86_64-cpputest
+            mingw-w64-x86_64-qt5
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-libvorbis
+            mingw-w64-x86_64-zeromq
+            zip
+            p7zip
+            unzip
+
+      # Build for Windows
+      - name: Build (Windows)
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
-          echo 'Running in MSYS2!'
+          echo "Running Windows build..."
           ./JAERO/ci-windows-build.sh
-        shell:  msys2 {0}
-      # build for linux
-      - name: Linux-CI-Build
+        shell: msys2 {0}
+
+      # Install dependencies (Linux)
+      - name: Install dependencies (Linux)
         if: ${{ matrix.os == 'ubuntu-latest' }}
         run: |
-          echo 'Running in bash!'
-          ./JAERO/ci-linux-build.sh          
-      # upload windows artifacts    
-      - name: Upload windows binary artifacts
+          sudo apt-get update
+          sudo apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools \
+                                  build-essential cmake git libtool libzmq3-dev libvorbis-dev
+
+      # Build for Linux
+      - name: Build (Linux)
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        run: |
+          echo "Running Linux build..."
+          ./JAERO/ci-linux-build.sh
+        shell: bash
+
+      # Upload Windows artifacts
+      - name: Upload Windows artifacts
         if: ${{ matrix.os == 'windows-latest' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jaero_windows
-          retention-days: 1
+          retention-days: 3
           path: |
             JAERO/JAERO/release/*.zip
-      # upload linux artifacts    
-      - name: Upload linux binary artifacts
+
+      # Upload Linux artifacts
+      - name: Upload Linux artifacts
         if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: jaero_linux
-          retention-days: 1
+          retention-days: 3
           path: |
             JAERO/bin/*.tar.gz
+
   release:
+    name: Create GitHub Release
     needs: build
     runs-on: ubuntu-latest
     steps:
-      # download all artifacts for this workflow
-      - name: Download all workflow artifacts
-        uses: actions/download-artifact@v2
-      # Create a release
-      - name: Create a release
-        uses: "marvinpinto/action-automatic-releases@latest"
+      # Download all build artifacts
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+
+      # Create GitHub release
+      - name: Create automatic release
+        uses: marvinpinto/action-automatic-releases@latest
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: latest
           prerelease: true
           title: "Development Build"
           files: |
