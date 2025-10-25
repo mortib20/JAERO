@@ -1627,6 +1627,7 @@ bool MainWindow::formatACARSItem(const ACARSItem &acarsitem, const QString &msgf
             json["t"]=QJsonValue(t);
 
             json["isu"]=QJsonValue(isu);
+            json["eb_no"]=last_EbNo;
 
             if(settingsdialog->set_station_id_enabled&&settingsdialog->station_id.size()>0)json["station"]=settingsdialog->station_id;
         }
