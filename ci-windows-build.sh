@@ -207,14 +207,25 @@ cp /mingw64/bin/Qt5Svg.dll $PWD
 cp /mingw64/bin/Qt5Sql.dll $PWD
 mkdir -p platforms
 cp /mingw64/share/qt5/plugins/platforms/qwindows.dll platforms/
+
+# Copy other essential plugins that might be needed
+mkdir -p audio
+cp /mingw64/share/qt5/plugins/audio/*.dll audio/ 2>/dev/null || true
+
+mkdir -p imageformats
+cp /mingw64/share/qt5/plugins/imageformats/*.dll imageformats/ 2>/dev/null || true
+
+mkdir -p mediaservice
+cp /mingw64/share/qt5/plugins/mediaservice/*.dll mediaservice/ 2>/dev/null || true
+
 echo "copying dlls done"
 #basestation if available
-if [ -f "../../../../basestation/basestation.sqb" ]; then
-   echo "basestation.sqb found. including it in package"
-   cp ../../../../basestation/basestation.sqb $PWD
-else
-   echo "basestation.sqb not found. will be missing from package"
-fi
+#if [ -f "../../../../basestation/basestation.sqb" ]; then
+#   echo "basestation.sqb found. including it in package"
+#   cp ../../../../basestation/basestation.sqb $PWD
+#else
+#   echo "basestation.sqb not found. will be missing from package"
+#fi
 #add readme
 cat <<EOT > readme.md
 # JAERO ${PACKAGE_VERSION}
