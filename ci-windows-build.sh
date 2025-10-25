@@ -151,7 +151,7 @@ mkdir release/jaero
 cp release/JAERO.exe release/jaero/
 cd release/jaero
 #echo "starting windeployqt"
-#windeployqt.exe --no-translations --opengl software --force JAERO.exe || echo "windeployqt had issues but continuing anyway"
+windeployqt.exe --no-translations --force JAERO.exe || echo "windeployqt had issues but continuing anyway"
 echo "deploy done"
 echo "copying dlls"
 cp /mingw64/bin/libstdc++-6.dll $PWD
@@ -205,6 +205,8 @@ cp /mingw64/bin/Qt5Network.dll $PWD
 cp /mingw64/bin/Qt5Widgets.dll $PWD
 cp /mingw64/bin/Qt5Svg.dll $PWD
 cp /mingw64/bin/Qt5Sql.dll $PWD
+mkdir -p platforms
+cp /mingw64/share/qt5/plugins/platforms/qwindows.dll platforms/
 echo "copying dlls done"
 #basestation if available
 if [ -f "../../../../basestation/basestation.sqb" ]; then
