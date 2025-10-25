@@ -151,7 +151,7 @@ mkdir release/jaero
 cp release/JAERO.exe release/jaero/
 cd release/jaero
 echo "starting windeployqt"
-windeployqt.exe --no-translations --force JAERO.exe
+windeployqt.exe --no-translations --opengl software --force JAERO.exe || echo "windeployqt had issues but continuing anyway"
 echo "deploy done"
 echo "copying dlls"
 cp /mingw64/bin/libstdc++-6.dll $PWD
