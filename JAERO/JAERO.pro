@@ -24,7 +24,7 @@ TEMPLATE = app
 INSTALL_PATH = /opt/jaero
 JFFT_PATH = ../../JFFT/
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++17
 
 INCLUDEPATH += $$JFFT_PATH
 
