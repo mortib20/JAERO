@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - master
+      - new
   pull_request:
 
 jobs:
